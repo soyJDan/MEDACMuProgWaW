@@ -105,7 +105,7 @@ public class Ejercito {
                 case "b":
 
                     try {
-                        if ((saldoPeso + Infanteria.PESO_INFANTERIA) < MAX_PESO) {
+                        if ((saldoPeso + Infanteria.PESO_INFANTERIA) <= MAX_PESO) {
 
                             adicionarUnidad(new Infanteria());
                             imprimirInfo(unidades.getLast());
@@ -125,7 +125,7 @@ public class Ejercito {
                 case "c":
 
                     try {
-                        if ((saldoPeso + Caballeria.PESO_CABALLERIA) < MAX_PESO) {
+                        if ((saldoPeso + Caballeria.PESO_CABALLERIA) <= MAX_PESO) {
 
                             adicionarUnidad(new Caballeria());
                             imprimirInfo(unidades.getLast());
@@ -144,7 +144,7 @@ public class Ejercito {
                     break;
                 case "d":
                     try {
-                        if (((saldoPeso + General.PESO_GENERAL) < MAX_PESO) && !hayGeneral) {
+                        if (((saldoPeso + General.PESO_GENERAL) <= MAX_PESO) && !hayGeneral) {
                             adicionarUnidad(new General());
                             imprimirInfo(unidades.getLast());
                         } else {
@@ -161,7 +161,7 @@ public class Ejercito {
                     break;
                 case "e":
                     try {
-                        if (((saldoPeso + Elefante.PESO_ELEFANTE) < MAX_PESO) && contadorAnimales < MAX_ANIMALES) {
+                        if (((saldoPeso + Elefante.PESO_ELEFANTE) <= MAX_PESO) && contadorAnimales < MAX_ANIMALES) {
                             adicionarUnidad(new Elefante());
                             imprimirInfo(unidades.getLast());
                         } else {
@@ -174,16 +174,13 @@ public class Ejercito {
                                         + (MAX_PESO - saldoPeso));
                             }
                         }
-                    } catch (MaxCapPesoEjercitoException e) {
-
-                    } catch (MaxAnimalesException e) {
-                        throw new RuntimeException(e);
+                    } catch (MaxCapPesoEjercitoException | MaxAnimalesException e) {
+                        System.out.println(e.getMessage());
                     }
-
                     break;
                 case "f":
                     try {
-                        if ((saldoPeso + Tigre.PESO_TIGRE) < MAX_PESO && contadorAnimales < MAX_ANIMALES) {
+                        if ((saldoPeso + Tigre.PESO_TIGRE) <= MAX_PESO && contadorAnimales < MAX_ANIMALES) {
                             adicionarUnidad(new Tigre());
                             imprimirInfo(unidades.getLast());
                         } else {
@@ -299,22 +296,29 @@ public class Ejercito {
     }
 
     private void adicionarUnidad(Componentes componentes) {
-        if (componentes instanceof Infanteria || componentes instanceof Caballeria) {
-            unidades.add(componentes);
-            saldoPeso += componentes.getPeso();
-        } else if (componentes instanceof General) {
-            unidades.add(componentes);
-            saldoPeso += componentes.getPeso();
+        if (saldoPeso == MAX_PESO - 1 && hayGeneral == false) {
+            System.out.println("Falta general");
+            System.out.println("Se agrego un general por defecto al ejercito");
+            unidades.add(new General());
+            saldoPeso += General.PESO_GENERAL;
             hayGeneral = true;
-        } else if (componentes instanceof Elefante || componentes instanceof Tigre) {
-            unidades.add(componentes);
-            saldoPeso += componentes.getPeso();
-            contadorAnimales++;
+        } else {
+            if (componentes instanceof Infanteria || componentes instanceof Caballeria) {
+                unidades.add(componentes);
+                saldoPeso += componentes.getPeso();
+            } else if (componentes instanceof General) {
+                unidades.add(componentes);
+                saldoPeso += componentes.getPeso();
+                hayGeneral = true;
+            } else if (componentes instanceof Elefante || componentes instanceof Tigre) {
+                unidades.add(componentes);
+                saldoPeso += componentes.getPeso();
+                contadorAnimales++;
+            }
         }
     }
 
     private void eliminarUnidad(String nombreUnidad) {
-
         try {
             for (Componentes unidad : unidades) {
                 if (unidad.getNombre().equalsIgnoreCase(nombreUnidad)) {
@@ -330,10 +334,11 @@ public class Ejercito {
                     System.out.println(unidad.getNombre() + ": " + Message.UNIDAD_ELIM_SATIS);
 
                     break;
-                } else {
-                    throw new UnidadInexistenteException(Message.UNIDAD_INEXISTENTE);
                 }
             }
+
+            throw new UnidadInexistenteException(Message.UNIDAD_INEXISTENTE);
+
         } catch (UnidadInexistenteException e) {
             System.out.println(e.getMessage());
         }

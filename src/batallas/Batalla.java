@@ -60,7 +60,9 @@ public class Batalla {
                     if (getGanador() == ejercito1) {
                         System.out.println(System.lineSeparator() + Message.EJERCITO_GANADOR +
                                 ejercito1.getNombre());
-                    } else {
+                    }
+
+                    if (getGanador() == ejercito2) {
                         System.out.println(System.lineSeparator() + Message.EJERCITO_GANADOR +
                                 ejercito2.getNombre());
                     }
