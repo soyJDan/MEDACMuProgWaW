@@ -15,6 +15,9 @@ import excepciones.batallas.*;
 import excepciones.personas.GeneralMinimoException;
 import excepciones.personas.MaxCapGeneralException;
 
+import javax.swing.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,7 +30,10 @@ import java.util.Scanner;
  * @author Daniel Romero
  * @version 1.0
  */
-public class Ejercito {
+public class Ejercito implements Serializable {
+
+//    @Serial
+//    private static final long serialVersionUID = 1L;
 
     private static final int MAX_PESO = 50;
     private static final int MAX_ANIMALES = 3;
@@ -42,12 +48,13 @@ public class Ejercito {
     private int saldoPeso;
     private String nombre;
 
+    private String opcion;
+
     public Ejercito() {
 
         nombre = "";
         saldoPeso = 0;
         restablecerAtributos();
-        menu();
     }
 
     public int getAtaque() {
@@ -70,9 +77,8 @@ public class Ejercito {
         return saldoPeso;
     }
 
-    private void menu() {
-        Scanner scanner = new Scanner(System.in);
-        String opcion;
+    public void menu() {
+//        Scanner scanner = new Scanner(System.in);
 
         String[] opciones = {"Crear ID para ejército", "Añadir infantería",
                 "Añadir caballería", "Añadir general", "Añadir elefante", "Añadir tigre",
@@ -85,14 +91,14 @@ public class Ejercito {
                 System.out.println((letra) + ". " + text);
                 letra++;
             }
-            opcion = scanner.nextLine();
+//            opcion = scanner.nextLine();
 
             switch (opcion) {
                 case "a":
                     if (nombre.isBlank() || nombre.isEmpty()) {
                         System.out.print(System.lineSeparator() + "Asignale un nombre a tu ejército: ");
 
-                        asignarNombre(scanner.nextLine());
+//                        asignarNombre(scanner.nextLine());
                         if (!nombre.isEmpty()) {
                             System.out.println("Nombre del ejército: " + nombre + System.lineSeparator());
                         }
@@ -208,9 +214,9 @@ public class Ejercito {
                             informacionEjercito();
 
                             System.out.println("Nombre de la unidad a eliminar: ");
-                            String nombreUnidad = scanner.nextLine();
+//                            String nombreUnidad = scanner.nextLine();
 
-                            eliminarUnidad(nombreUnidad);
+//                            eliminarUnidad(nombreUnidad);
                         } else {
                             throw new EjercitoVacioException(Message.EJERCITO_VACIO);
                         }
@@ -295,7 +301,7 @@ public class Ejercito {
         salud = 0;
     }
 
-    private void adicionarUnidad(Componentes componentes) {
+    public void adicionarUnidad(Componentes componentes) {
         if (saldoPeso == MAX_PESO - 1 && hayGeneral == false) {
             System.out.println("Falta general");
             System.out.println("Se agrego un general por defecto al ejercito");
@@ -318,7 +324,7 @@ public class Ejercito {
         }
     }
 
-    private void eliminarUnidad(String nombreUnidad) {
+    public void eliminarUnidad(String nombreUnidad) {
         try {
             for (Componentes unidad : unidades) {
                 if (unidad.getNombre().equalsIgnoreCase(nombreUnidad)) {
@@ -344,13 +350,13 @@ public class Ejercito {
         }
     }
 
-    private void informacionEjercito() {
+    public void informacionEjercito() {
         for (Componentes unidad : unidades) {
             System.out.println(unidad);
         }
     }
 
-    private void asignarNombre(String nombre) {
+    public void asignarNombre(String nombre) {
         try {
             if (!nombres.contains(nombre)) {
                 nombres.add(nombre);
@@ -359,7 +365,23 @@ public class Ejercito {
                 throw new NombreExistenteException(Message.NOMBRE_EXISTENTE);
             }
         } catch (NombreExistenteException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
+    }
+
+    public ArrayList<Componentes> getUnidades() {
+        return unidades;
+    }
+
+    public static int getMaxPeso() {
+        return MAX_PESO;
+    }
+
+    public String getOpcion() {
+        return opcion;
+    }
+
+    public void setOpcion(String opcion) {
+        this.opcion = opcion;
     }
 }
