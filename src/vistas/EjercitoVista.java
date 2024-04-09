@@ -69,38 +69,49 @@ public class EjercitoVista {
         confirmButton.addActionListener(e -> {
             if (!deleteUnit.isSelected()) {
                 if (addInfRad.isSelected()) {
-                    ejercito.setOpcion("b");
+                    ejercito.menu("b");
                     pesoBar.setValue(ejercito.getSaldoPeso());
 
-                    getAboutUnit();
+                    if (ejercito.getResultExecute() == 1) {
+                        getAboutUnit();
+                    }
                 }
 
                 if (addCabRad.isSelected()) {
-                    ejercito.setOpcion("c");
+                    ejercito.menu("c");
                     pesoBar.setValue(ejercito.getSaldoPeso());
 
-                    getAboutUnit();
+                    if (ejercito.getResultExecute() == 1) {
+                        getAboutUnit();
+                    }
                 }
 
                 if (addGenRad.isSelected()) {
-                    ejercito.setOpcion("d");
+                    ejercito.menu("d");
                     pesoBar.setValue(ejercito.getSaldoPeso());
 
-                    getAboutUnit();
+                    if (ejercito.getResultExecute() == 1) {
+                        getAboutUnit();
+                    }
+
                 }
 
                 if (addElefRad.isSelected()) {
-                    ejercito.setOpcion("e");
+                    ejercito.menu("e");
                     pesoBar.setValue(ejercito.getSaldoPeso());
 
-                    getAboutUnit();
+                    if (ejercito.getResultExecute() == 1) {
+                        getAboutUnit();
+                    }
                 }
 
                 if (addTirgRad.isSelected()) {
-                    ejercito.setOpcion("f");
+                    ejercito.menu("f");
                     pesoBar.setValue(ejercito.getSaldoPeso());
 
-                    getAboutUnit();
+                    if (ejercito.getResultExecute() == 1) {
+                        getAboutUnit();
+                    }
                 }
 
                 tableModel.fireTableDataChanged();
