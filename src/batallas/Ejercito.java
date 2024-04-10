@@ -120,7 +120,7 @@ public class Ejercito implements Serializable {
                             if (saldoPeso == MAX_PESO) {
                                 throw new MaxCapPesoEjercitoException(Message.MAX_CAP_PESO_EJERCITO);
                             } else {
-                                System.out.println(Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
+                                JOptionPane.showMessageDialog(null, Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
                                         + (MAX_PESO - saldoPeso));
                             }
                         }
@@ -142,7 +142,7 @@ public class Ejercito implements Serializable {
                             if (saldoPeso == MAX_PESO) {
                                 throw new MaxCapPesoEjercitoException(Message.MAX_CAP_PESO_EJERCITO);
                             } else {
-                                System.out.println(Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
+                                JOptionPane.showMessageDialog(null, Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
                                         + (MAX_PESO - saldoPeso));
                             }
                         }
@@ -185,7 +185,7 @@ public class Ejercito implements Serializable {
                             } else if (MAX_ANIMALES == contadorAnimales) {
                                 throw new MaxAnimalesException(Message.MAX_ANIMALES);
                             } else {
-                                System.out.println(Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
+                                JOptionPane.showMessageDialog(null, Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
                                         + (MAX_PESO - saldoPeso));
                             }
                         }
@@ -207,7 +207,7 @@ public class Ejercito implements Serializable {
                             } else if (MAX_ANIMALES == contadorAnimales) {
                                 throw new MaxAnimalesException(Message.MAX_ANIMALES);
                             } else {
-                                System.out.println(Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
+                                JOptionPane.showMessageDialog(null, Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
                                         + (MAX_PESO - saldoPeso));
                             }
                         }
@@ -235,7 +235,7 @@ public class Ejercito implements Serializable {
                             throw new EjercitoVacioException(Message.EJERCITO_VACIO);
                         }
                     } catch (EjercitoVacioException e) {
-                        System.out.println(e.getMessage());
+                        JOptionPane.showMessageDialog(null, e.getMessage());
                     }
 
                     break;
@@ -315,8 +315,8 @@ public class Ejercito implements Serializable {
 
     public void adicionarUnidad(Componentes componentes) {
         if (saldoPeso == MAX_PESO - 1 && hayGeneral == false) {
-            System.out.println("Falta general");
-            System.out.println("Se agrego un general por defecto al ejercito");
+            JOptionPane.showMessageDialog(null, "Falta un general. Se agrego un general " +
+                    "por defecto al ejercito en la unidad reservada.");
             unidades.add(new General());
             saldoPeso += General.PESO_GENERAL;
             hayGeneral = true;

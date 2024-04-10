@@ -1,11 +1,6 @@
 package vistas;
 
 import batallas.Ejercito;
-import componentes.animales.Elefante;
-import componentes.animales.Tigre;
-import componentes.personas.Caballeria;
-import componentes.personas.General;
-import componentes.personas.Infanteria;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -26,7 +21,7 @@ public class EjercitoVista {
     private JRadioButton addTirgRad;
     private JRadioButton deleteUnit;
     private JButton confirmButton;
-    private JButton button1;
+    private JButton endButton;
     private JTable totalArmy;
     private JLabel pesoLabel;
     private JLabel totalLabel;
@@ -122,9 +117,6 @@ public class EjercitoVista {
                 data.removeLast();
             }
         });
-
-
-
     }
 
     private void initComponents() {
