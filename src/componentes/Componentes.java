@@ -109,7 +109,7 @@ public class Componentes {
         atributos.add(limiteSuperior - (atributos.get(1) + atributos.get(0)));
 
         for (Integer atributo : atributos) {
-            if (atributo.equals(0)) {
+            if (atributo == 0) {
                 generarAtributos(limiteSuperior);
             }
         }

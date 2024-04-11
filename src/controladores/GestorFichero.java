@@ -14,7 +14,7 @@ public class GestorFichero {
     private String rutaFichero;
     private BufferedReader br;
     private List<String> nombreGeneral;
-    private String nombreDeGeneral;
+    private static String nombreDeGeneral;
 
     public GestorFichero() {
 
@@ -49,6 +49,10 @@ public class GestorFichero {
 
 
         int indiceGeneralAleatorio = random.nextInt(nombreGeneral.size());
-        return nombreGeneral.get(indiceGeneralAleatorio);
+        return nombreDeGeneral = nombreGeneral.get(indiceGeneralAleatorio);
+    }
+
+    public static String getNombreDeGeneral() {
+        return nombreDeGeneral;
     }
 }
