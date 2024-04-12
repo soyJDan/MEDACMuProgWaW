@@ -55,14 +55,14 @@ public class Principal extends JFrame {
         });
 
         // Navigate to another view
-//        boton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                EjercitoVista ejercitoVista = new EjercitoVista();
-//                ejercitoVista.setVisible(true);
-//                dispose();
-//            }
-//        });
+        boton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EjercitoVista ejercitoVista = new EjercitoVista();
+                ejercitoVista.setVisible(true);
+                dispose();
+            }
+        });
 
         boton.setOpaque(false);
         boton.setContentAreaFilled(false);
