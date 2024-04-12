@@ -10,14 +10,14 @@ package batallas;
  */
 public class Ronda {
     private int numRonda;
-    private Ejercito atacante;
-    private Ejercito defensor;
+    private static Ejercito atacante;
+    private static Ejercito defensor;
     private int resultado;
     
     public Ronda(int ronda, Ejercito atacante, Ejercito defensor){
         this.numRonda = ronda;
-        this.atacante = atacante;
-        this.defensor = defensor;
+        Ronda.atacante = atacante;
+        Ronda.defensor = defensor;
         this.resultado = luchar();
     }
     
@@ -28,4 +28,18 @@ public class Ronda {
     public int getResultado(){
         return resultado;
     }
+
+    public int getNumRonda() {
+        return numRonda;
+    }
+
+    public Ejercito getAtacante() {
+        return atacante;
+    }
+
+    public Ejercito getDefensor() {
+        return defensor;
+    }
+
+
 }

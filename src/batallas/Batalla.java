@@ -109,4 +109,16 @@ public class Batalla {
     public Ejercito getEjercito2() {
         return ejercito2;
     }
+
+    public int getNumRondas() {
+        return numRondas;
+    }
+
+    public void setNumRondas(int numRondas) {
+        this.numRondas = numRondas;
+    }
+
+    public ArrayList<Ronda> getRondas() {
+        return rondas;
+    }
 }

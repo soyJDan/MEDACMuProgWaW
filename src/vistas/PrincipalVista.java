@@ -15,7 +15,7 @@ public class PrincipalVista extends JFrame {
     public PrincipalVista() {
         super("MEDAC Programación Batalla");
         setContentPane(panel);
-        setLocationRelativeTo(null);
+        setLocation(500, 200);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
         setVisible(true);

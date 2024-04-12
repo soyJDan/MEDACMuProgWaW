@@ -23,4 +23,6 @@ public final class Message {
     public static final String UNIDAD_INEXISTENTE = "No existe la unidad";
     public static final String UNIDAD_ELIM_SATIS = "Unidad eliminada satisfactoriamente";
     public static final String BATALLA_INICIO = "¡Comienza la batalla entre ";
+    public static final String BATALLA_FIN = "¡La batalla ha terminado!";
+    public static final String ERROR_NAME_EMPTY = "El nombre no puede estar vacío";
 }

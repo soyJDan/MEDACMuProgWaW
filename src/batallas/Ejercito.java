@@ -364,7 +364,7 @@ public class Ejercito implements Serializable {
             throw new UnidadInexistenteException(Message.UNIDAD_INEXISTENTE);
 
         } catch (UnidadInexistenteException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 

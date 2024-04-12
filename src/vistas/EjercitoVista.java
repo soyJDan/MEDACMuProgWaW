@@ -42,14 +42,17 @@ public class EjercitoVista extends JFrame {
     private Vector<Vector<Object>> dataTotal;
     private Ejercito ejercito;
 
-    private Batalla batalla;
+    private static final Batalla batalla = new Batalla();
 
     public EjercitoVista() {
         setContentPane(panel);
-        setLocationRelativeTo(null);
+        setLocation(500, 200);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
+    }
+
+    public EjercitoVista(boolean isBatalla) {
     }
 
     public static void main(String[] args) {
@@ -92,9 +95,13 @@ public class EjercitoVista extends JFrame {
                     ejercito.asignarNombre(name);
 
                     if (ejercito.getResultExecute() == 1) {
-                        nameArmyRad.setEnabled(false);
-                        nameArmyRad.setSelected(false);
-                        nameArmy.setText("Ejército: " + name);
+                        if (name.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, Message.ERROR_NAME_EMPTY);
+                        } else {
+                            nameArmyRad.setEnabled(false);
+                            nameArmyRad.setSelected(false);
+                            nameArmy.setText("Ejército: " + name);
+                        }
                     }
                 }
 
@@ -151,11 +158,16 @@ public class EjercitoVista extends JFrame {
 
                 pesoBar.setString(ejercito.getSaldoPeso() + "/" + Ejercito.getMaxPeso());
             } else {
-                String nameUnit = JOptionPane.showInputDialog("Introduce el nombre del ejercito");
+                if (ejercito.getUnidades().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, Message.EJERCITO_VACIO);
+                } else {
+                    String nameUnit = JOptionPane.showInputDialog("Introduce el nombre del ejercito");
 
-                ejercito.eliminarUnidad(nameUnit);
+                    ejercito.eliminarUnidad(nameUnit);
+                    pesoBar.setValue(ejercito.getSaldoPeso());
 
-                pesoBar.setValue(ejercito.getSaldoPeso());
+                    getAboutUnit();
+                }
             }
 
             ejercito.actualizarEjercito();
@@ -175,7 +187,7 @@ public class EjercitoVista extends JFrame {
 
             ejercito.menu("i");
 
-            if (ejercito.getResultExecute() == 1) {
+            if (ejercito.getResultExecute() == 1 && ejercito.getNombre() != null) {
                 if (batalla.getEjercito1().getUnidades().isEmpty()) {
                     batalla.setEjercito1(ejercito);
                     System.out.println(ejercito);
@@ -183,24 +195,30 @@ public class EjercitoVista extends JFrame {
                     new EjercitoVista();
                 } else if (batalla.getEjercito2().getUnidades().isEmpty()) {
                     batalla.setEjercito2(ejercito);
+                    batalla.luchar();
 
                     new BatallaVista();
 
                     try {
                         Thread.sleep(1000);
-                        batalla.luchar();
                     } catch (InterruptedException ex) {
                         System.out.println(ex.getMessage());
                     }
+                } else {
+                    if (ejercito.getNombre() == null) {
+                        JOptionPane.showMessageDialog(null, Message.EJERCITO_SIN_NOMBRE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, Message.EJERCITO_VACIO);
+                    }
                 }
+
+                dispose();
 
                 try {
                     GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
                 } catch (IOException ex) {
                     System.out.printf(ex.getMessage());
                 }
-
-                dispose();
             }
         });
     }
@@ -220,17 +238,24 @@ public class EjercitoVista extends JFrame {
         panelTotal = new JScrollPane();
         data = new Vector<>();
         dataTotal = new Vector<>();
-        batalla = new Batalla();
         ejercito = new Ejercito();
     }
 
     private void getAboutUnit() {
-        data.add(new Vector<>(Arrays.asList(
-                ejercito.getUnidades().getLast().getNombre(),
-                ejercito.getUnidades().getLast().getClass().getSimpleName(),
-                ejercito.getUnidades().getLast().getAtaque(),
-                ejercito.getUnidades().getLast().getDefensa(),
-                ejercito.getUnidades().getLast().getSalud()
-        )));
+        data.clear();
+
+        for (Componentes componente : ejercito.getUnidades()) {
+            data.add(new Vector<>(Arrays.asList(
+                    componente.getNombre(),
+                    componente.getClass().getSimpleName(),
+                    componente.getAtaque(),
+                    componente.getDefensa(),
+                    componente.getSalud()
+            )));
+        }
+    }
+
+    public static Batalla getBatalla() {
+        return batalla;
     }
 }
