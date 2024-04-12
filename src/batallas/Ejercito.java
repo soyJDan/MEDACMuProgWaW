@@ -16,12 +16,10 @@ import excepciones.personas.GeneralMinimoException;
 import excepciones.personas.MaxCapGeneralException;
 
 import javax.swing.*;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * <p>Clase que representa un ejército.</p>
@@ -56,6 +54,10 @@ public class Ejercito implements Serializable {
         restablecerAtributos();
     }
 
+    public static int getMaxPeso() {
+        return MAX_PESO;
+    }
+
     public int getAtaque() {
         return ataque;
     }
@@ -77,199 +79,201 @@ public class Ejercito implements Serializable {
     }
 
     public void menu(String opcion) {
-//        Scanner scanner = new Scanner(System.in);
+
 
         String[] opciones = {"Crear ID para ejército", "Añadir infantería",
                 "Añadir caballería", "Añadir general", "Añadir elefante", "Añadir tigre",
                 "Consultar saldo ejército", "Eliminar unidad", "Salir y confirmar"};
 
-        //do {
 
-            char letra = 97; // Letra en código ASCII (a)
-            for (String text : opciones) {
-                System.out.println((letra) + ". " + text);
-                letra++;
-            }
-//            opcion = scanner.nextLine();
+        char letra = 97; // Letra en código ASCII (a)
+        for (String text : opciones) {
+            System.out.println((letra) + ". " + text);
+            letra++;
+        }
 
-            switch (opcion) {
-                case "a":
-                    if (nombre.isBlank() || nombre.isEmpty()) {
-                        System.out.print(System.lineSeparator() + "Asignale un nombre a tu ejército: ");
+        switch (opcion) {
+            case "a":
+                if (nombre.isBlank() || nombre.isEmpty()) {
+                    System.out.print(System.lineSeparator() + "Asignale un nombre a tu ejército: ");
 
-//                        asignarNombre(scanner.nextLine());
-                        if (!nombre.isEmpty()) {
-                            System.out.println("Nombre del ejército: " + nombre + System.lineSeparator());
-                        }
-                    } else {
-                        System.out.println(System.lineSeparator() + "El ejército ya tiene un nombre asignado.");
+                    if (!nombre.isEmpty()) {
                         System.out.println("Nombre del ejército: " + nombre + System.lineSeparator());
                     }
+                } else {
+                    System.out.println(System.lineSeparator() + "El ejército ya tiene un nombre asignado.");
+                    System.out.println("Nombre del ejército: " + nombre + System.lineSeparator());
+                }
 
-                    break;
-                case "b":
+                break;
+            case "b":
 
-                    try {
-                        if ((saldoPeso + Infanteria.PESO_INFANTERIA) <= MAX_PESO) {
-                            adicionarUnidad(new Infanteria());
-                            imprimirInfo(unidades.getLast());
-                            resultExecute = 1;
+                try {
+                    if ((saldoPeso + Infanteria.PESO_INFANTERIA) <= MAX_PESO) {
+                        adicionarUnidad(new Infanteria());
+                        imprimirInfo(unidades.getLast());
+                        resultExecute = 1;
+                    } else {
+                        resultExecute = 0;
+
+                        if (saldoPeso == MAX_PESO) {
+                            throw new MaxCapPesoEjercitoException(Message.MAX_CAP_PESO_EJERCITO);
                         } else {
-                            resultExecute = 0;
-
-                            if (saldoPeso == MAX_PESO) {
-                                throw new MaxCapPesoEjercitoException(Message.MAX_CAP_PESO_EJERCITO);
-                            } else {
-                                JOptionPane.showMessageDialog(null, Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
-                                        + (MAX_PESO - saldoPeso));
-                            }
+                            JOptionPane.showMessageDialog(null, Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
+                                    + (MAX_PESO - saldoPeso));
                         }
-                    } catch (MaxCapPesoEjercitoException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
                     }
+                } catch (MaxCapPesoEjercitoException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
+                }
 
-                    break;
-                case "c":
+                break;
+            case "c":
 
-                    try {
-                        if ((saldoPeso + Caballeria.PESO_CABALLERIA) <= MAX_PESO) {
-                            adicionarUnidad(new Caballeria());
-                            imprimirInfo(unidades.getLast());
-                            resultExecute = 1;
+                try {
+                    if ((saldoPeso + Caballeria.PESO_CABALLERIA) <= MAX_PESO) {
+                        adicionarUnidad(new Caballeria());
+                        imprimirInfo(unidades.getLast());
+                        resultExecute = 1;
+                    } else {
+                        resultExecute = 0;
+
+                        if (saldoPeso == MAX_PESO) {
+                            throw new MaxCapPesoEjercitoException(Message.MAX_CAP_PESO_EJERCITO);
                         } else {
-                            resultExecute = 0;
-
-                            if (saldoPeso == MAX_PESO) {
-                                throw new MaxCapPesoEjercitoException(Message.MAX_CAP_PESO_EJERCITO);
-                            } else {
-                                JOptionPane.showMessageDialog(null, Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
-                                        + (MAX_PESO - saldoPeso));
-                            }
+                            JOptionPane.showMessageDialog(null, Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
+                                    + (MAX_PESO - saldoPeso));
                         }
-                    } catch (MaxCapPesoEjercitoException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
                     }
+                } catch (MaxCapPesoEjercitoException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
+                }
 
-                    break;
-                case "d":
-                    try {
-                        if (((saldoPeso + General.PESO_GENERAL) <= MAX_PESO) && !hayGeneral) {
-                            adicionarUnidad(new General());
-                            imprimirInfo(unidades.getLast());
-                            resultExecute = 1;
+                break;
+            case "d":
+                try {
+                    if (((saldoPeso + General.PESO_GENERAL) <= MAX_PESO) && !hayGeneral) {
+                        adicionarUnidad(new General());
+                        imprimirInfo(unidades.getLast());
+                        resultExecute = 1;
+                    } else {
+                        resultExecute = 0;
+
+                        if (saldoPeso == MAX_PESO) {
+                            throw new MaxCapPesoEjercitoException(Message.MAX_CAP_PESO_EJERCITO);
                         } else {
-                            resultExecute = 0;
-
-                            if (saldoPeso == MAX_PESO) {
-                                throw new MaxCapPesoEjercitoException(Message.MAX_CAP_PESO_EJERCITO);
-                            } else {
-                                throw new MaxCapGeneralException(Message.GENERAL_EXISTENTE);
-                            }
+                            throw new MaxCapGeneralException(Message.GENERAL_EXISTENTE);
                         }
-                    } catch (MaxCapPesoEjercitoException | MaxCapGeneralException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
                     }
+                } catch (MaxCapPesoEjercitoException | MaxCapGeneralException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
+                }
 
-                    break;
-                case "e":
-                    try {
-                        if (((saldoPeso + Elefante.PESO_ELEFANTE) <= MAX_PESO) && contadorAnimales < MAX_ANIMALES) {
-                            adicionarUnidad(new Elefante());
-                            imprimirInfo(unidades.getLast());
-                            resultExecute = 1;
+                break;
+            case "e":
+                try {
+                    if (((saldoPeso + Elefante.PESO_ELEFANTE) <= MAX_PESO) && contadorAnimales < MAX_ANIMALES) {
+                        adicionarUnidad(new Elefante());
+                        imprimirInfo(unidades.getLast());
+                        resultExecute = 1;
+                    } else {
+                        resultExecute = 0;
+
+                        if (saldoPeso == MAX_PESO) {
+                            throw new MaxCapPesoEjercitoException(Message.MAX_CAP_PESO_EJERCITO);
+                        } else if (MAX_ANIMALES == contadorAnimales) {
+                            throw new MaxAnimalesException(Message.MAX_ANIMALES);
                         } else {
-                            resultExecute = 0;
-
-                            if (saldoPeso == MAX_PESO) {
-                                throw new MaxCapPesoEjercitoException(Message.MAX_CAP_PESO_EJERCITO);
-                            } else if (MAX_ANIMALES == contadorAnimales) {
-                                throw new MaxAnimalesException(Message.MAX_ANIMALES);
-                            } else {
-                                JOptionPane.showMessageDialog(null, Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
-                                        + (MAX_PESO - saldoPeso));
-                            }
+                            JOptionPane.showMessageDialog(null, Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
+                                    + (MAX_PESO - saldoPeso));
                         }
-                    } catch (MaxCapPesoEjercitoException | MaxAnimalesException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
                     }
-                    break;
-                case "f":
-                    try {
-                        if ((saldoPeso + Tigre.PESO_TIGRE) <= MAX_PESO && contadorAnimales < MAX_ANIMALES) {
-                            adicionarUnidad(new Tigre());
-                            imprimirInfo(unidades.getLast());
-                            resultExecute = 1;
+                } catch (MaxCapPesoEjercitoException | MaxAnimalesException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
+                }
+
+                break;
+            case "f":
+                try {
+                    if ((saldoPeso + Tigre.PESO_TIGRE) <= MAX_PESO && contadorAnimales < MAX_ANIMALES) {
+                        adicionarUnidad(new Tigre());
+                        imprimirInfo(unidades.getLast());
+                        resultExecute = 1;
+                    } else {
+                        resultExecute = 0;
+
+                        if (saldoPeso == MAX_PESO) {
+                            throw new MaxCapPesoEjercitoException(Message.MAX_CAP_PESO_EJERCITO);
+                        } else if (MAX_ANIMALES == contadorAnimales) {
+                            throw new MaxAnimalesException(Message.MAX_ANIMALES);
                         } else {
-                            resultExecute = 0;
-
-                            if (saldoPeso == MAX_PESO) {
-                                throw new MaxCapPesoEjercitoException(Message.MAX_CAP_PESO_EJERCITO);
-                            } else if (MAX_ANIMALES == contadorAnimales) {
-                                throw new MaxAnimalesException(Message.MAX_ANIMALES);
-                            } else {
-                                JOptionPane.showMessageDialog(null, Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
-                                        + (MAX_PESO - saldoPeso));
-                            }
+                            JOptionPane.showMessageDialog(null, Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
+                                    + (MAX_PESO - saldoPeso));
                         }
-                    } catch (MaxAnimalesException | MaxCapPesoEjercitoException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
                     }
+                } catch (MaxAnimalesException | MaxCapPesoEjercitoException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
+                }
 
-                    break;
-                case "g":
-                    System.out.println(Message.SALDO_ACTUAL + getSaldoPeso());
-                    break;
-                case "h":
-                    try {
-                        if (!unidades.isEmpty()) {
-                            System.out.println("Eliminar unidad del ejército: ");
-                            informacionEjercito();
-                            resultExecute = 1;
+                break;
+            case "g":
+                System.out.println(Message.SALDO_ACTUAL + getSaldoPeso());
+                break;
+            case "h":
+                try {
+                    if (!unidades.isEmpty()) {
+                        System.out.println("Eliminar unidad del ejército: ");
+                        informacionEjercito();
+                        resultExecute = 1;
 
-                            System.out.println("Nombre de la unidad a eliminar: ");
+                        System.out.println("Nombre de la unidad a eliminar: ");
 //                            String nombreUnidad = scanner.nextLine();
 
 //                            eliminarUnidad(nombreUnidad);
-                        } else {
-                            resultExecute = 0;
-                            throw new EjercitoVacioException(Message.EJERCITO_VACIO);
-                        }
-                    } catch (EjercitoVacioException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    } else {
+                        resultExecute = 0;
+                        throw new EjercitoVacioException(Message.EJERCITO_VACIO);
+                    }
+                } catch (EjercitoVacioException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
+                }
+
+                break;
+            case "i":
+                try {
+                    if (saldoPeso >= MIN_UNIDADES && hayGeneral) {
+                        System.out.println(System.lineSeparator() + "Su Ejército está formado por: "
+                                + System.lineSeparator());
+
+                        informacionEjercito();
+
+                        actualizarEjercito();
+                        resultExecute = 1;
+
+                        break;
                     }
 
-                    break;
-                case "i":
-                    try {
-                        if (saldoPeso >= MIN_UNIDADES && hayGeneral) {
-                            System.out.println(System.lineSeparator() + "Su Ejército está formado por: "
-                                    + System.lineSeparator());
-
-                            informacionEjercito();
-
-                            actualizarEjercito();
-                            break;
-                        }
-
-                        if (nombre == null || nombre.isEmpty() || nombre.isBlank()) {
-                            throw new EjercitoNombreException(Message.EJERCITO_SIN_NOMBRE);
-                        }
-
-                        if (saldoPeso < MIN_UNIDADES) {
-                            throw new UnidadMinimaException(Message.UNIDADES_MINIMAS);
-                        } else {
-                            throw new GeneralMinimoException(Message.GENERAL_MINIMO);
-                        }
-                    } catch (EjercitoNombreException | UnidadMinimaException | GeneralMinimoException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    if (nombre == null || nombre.isEmpty() || nombre.isBlank()) {
+                        resultExecute = 0;
+                        throw new EjercitoNombreException(Message.EJERCITO_SIN_NOMBRE);
                     }
 
-                    break;
-                default:
-                    System.out.println(Message.OPCION_INAVLIDA);
-                    break;
-            }
-        //} while (!opcion.equals("i"));
+                    if (saldoPeso < MIN_UNIDADES) {
+                        resultExecute = 0;
+                        throw new UnidadMinimaException(Message.UNIDADES_MINIMAS);
+                    } else {
+                        throw new GeneralMinimoException(Message.GENERAL_MINIMO);
+                    }
+                } catch (EjercitoNombreException | UnidadMinimaException | GeneralMinimoException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
+                }
+
+
+                break;
+            default:
+                System.out.println(Message.OPCION_INAVLIDA);
+                break;
+        }
     }
 
     private void imprimirInfo(Componentes componente) {
@@ -299,7 +303,9 @@ public class Ejercito implements Serializable {
         }
     }
 
-    private void actualizarEjercito() {
+    public void actualizarEjercito() {
+        restablecerAtributos();
+
         for (Componentes componente : unidades) {
             ataque += componente.getAtaque();
             defensa += componente.getDefensa();
@@ -314,7 +320,7 @@ public class Ejercito implements Serializable {
     }
 
     public void adicionarUnidad(Componentes componentes) {
-        if (saldoPeso == MAX_PESO - 1 && hayGeneral == false) {
+        if (saldoPeso == MAX_PESO - 1 && !hayGeneral) {
             JOptionPane.showMessageDialog(null, "Falta un general. Se agrego un general " +
                     "por defecto al ejercito en la unidad reservada.");
             unidades.add(new General());
@@ -358,7 +364,7 @@ public class Ejercito implements Serializable {
             throw new UnidadInexistenteException(Message.UNIDAD_INEXISTENTE);
 
         } catch (UnidadInexistenteException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 
@@ -371,9 +377,13 @@ public class Ejercito implements Serializable {
     public void asignarNombre(String nombre) {
         try {
             if (!nombres.contains(nombre)) {
+                resultExecute = 1;
+
                 nombres.add(nombre);
                 this.nombre = nombre;
             } else {
+                resultExecute = 0;
+
                 throw new NombreExistenteException(Message.NOMBRE_EXISTENTE);
             }
         } catch (NombreExistenteException e) {
@@ -385,15 +395,26 @@ public class Ejercito implements Serializable {
         return unidades;
     }
 
-    public static int getMaxPeso() {
-        return MAX_PESO;
-    }
-
     public int getResultExecute() {
         return resultExecute;
     }
 
     public void setResultExecute(int resultExecute) {
         this.resultExecute = resultExecute;
+    }
+
+    @Override
+    public String toString() {
+        return "Ejercito{" +
+                "unidades=" + unidades +
+                ", contadorAnimales=" + contadorAnimales +
+                ", hayGeneral=" + hayGeneral +
+                ", ataque=" + ataque +
+                ", defensa=" + defensa +
+                ", salud=" + salud +
+                ", saldoPeso=" + saldoPeso +
+                ", nombre='" + nombre + '\'' +
+                ", resultExecute=" + resultExecute +
+                '}';
     }
 }

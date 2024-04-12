@@ -42,11 +42,7 @@ public class ExploradorFicheros {
         return contenido.toString();
     }
 
-    public static void escribirFichero(String path, String contenido) {
-        try {
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    public static String getRuta() {
+        return ruta;
     }
 }

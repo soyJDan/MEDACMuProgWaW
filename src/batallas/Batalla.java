@@ -4,6 +4,8 @@
  */
 package batallas;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -14,24 +16,25 @@ import java.util.Random;
  * @author Daniel Romero
  * @version 1.0
  */
-public class Batalla {
+public class Batalla implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private static final int MAX_RONDAS = 5;
-    private final Ejercito ejercito1;
-    private final Ejercito ejercito2;
+    private static Ejercito ejercito1 = new Ejercito();
+    private static Ejercito ejercito2 = new Ejercito();
     private final ArrayList<Ronda> rondas;
     private final Random random = new Random();
     private int numRondas;
     private Ejercito ganador;
 
     public Batalla() {
-        ejercito1 = new Ejercito();
-        ejercito2 = new Ejercito();
         numRondas = 0;
         rondas = new ArrayList<>();
-        luchar();
     }
 
-    private void luchar() {
+    public void luchar() {
         System.out.println(Message.BATALLA_INICIO + ejercito1.getNombre() + " vs " + ejercito2.getNombre() + "!");
 
         Ejercito atacante;
@@ -95,5 +98,44 @@ public class Batalla {
 
     public Ejercito getGanador() {
         return ganador;
+    }
+
+    public void setEjercito1(Ejercito ejercito1) {
+        this.ejercito1 = ejercito1;
+    }
+
+    public void setEjercito2(Ejercito ejercito2) {
+        this.ejercito2 = ejercito2;
+    }
+
+    public Ejercito getEjercito1() {
+        return ejercito1;
+    }
+
+    public Ejercito getEjercito2() {
+        return ejercito2;
+    }
+
+    public int getNumRondas() {
+        return numRondas;
+    }
+
+    public void setNumRondas(int numRondas) {
+        this.numRondas = numRondas;
+    }
+
+    public ArrayList<Ronda> getRondas() {
+        return rondas;
+    }
+
+    @Override
+    public String toString() {
+        return "Batalla{" +
+                "rondas=" + rondas +
+                ", ejercito1=" + ejercito1 +
+                ", ejercito2=" + ejercito2 +
+                ", numRondas=" + numRondas +
+                ", ganador=" + ganador +
+                '}';
     }
 }

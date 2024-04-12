@@ -5,6 +5,7 @@
 package componentes.personas;
 
 import controladores.ExploradorFicheros;
+import controladores.GestorFichero;
 
 import java.util.List;
 import java.util.Random;
@@ -25,7 +26,7 @@ public static final int PESO_GENERAL = 1;
         setAtaque((int) Math.ceil(atributos.get(0)*getMultiplicador()));
         setDefensa((int) Math.ceil(atributos.get(1)*getMultiplicador()));
         setSalud((int) Math.ceil(atributos.get(2)*getMultiplicador()));
-//        setNombre();
+        setNombre(GestorFichero.getNombreDeGeneral());
     }
        
     @Override

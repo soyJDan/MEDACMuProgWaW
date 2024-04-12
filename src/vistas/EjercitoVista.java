@@ -1,46 +1,166 @@
 package vistas;
 
+import batallas.Batalla;
 import batallas.Ejercito;
+import batallas.Message;
+import componentes.Componentes;
+import controladores.ExploradorFicheros;
+import controladores.GestorFichero;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Vector;
 
-public class EjercitoVista {
+/**
+ * Clase que representa la vista de la aplicación para la creación de un ejército. Permite al usuario crear un
+ * ejército y añadirle unidades. Además, se puede visualizar el ejército creado y las unidades que lo componen.
+ * También se puede visualizar el peso total del ejército y el peso máximo permitido. Por último, se puede visualizar
+ * el ataque, defensa y salud total del ejército.
+ */
+public class EjercitoVista extends JFrame {
+
+    /**
+     * Panel principal de la vista
+     */
     private JPanel panel;
+
+    /**
+     * Barra de progreso que muestra el peso del ejército
+     */
     private JProgressBar pesoBar;
+
+    /**
+     * Etiqueta que muestra el nombre del ejército
+     */
     private JLabel nameArmy;
+
+    /**
+     * Tabla que muestra las unidades del ejército
+     */
     private JTable aboutArmy;
+
+    /**
+     * Panel que muestra el ejército
+     */
     private JPanel panelArmy;
+
+    /**
+     * Etiqueta que muestra el peso total del ejército
+     */
     private JRadioButton nameArmyRad;
+
+    /**
+     * Botón para añadir una unidad de infantería
+     */
     private JRadioButton addInfRad;
+
+    /**
+     * Botón para añadir una unidad de caballería
+     */
     private JRadioButton addCabRad;
+
+    /**
+     * Botón para añadir un general
+     */
     private JRadioButton addGenRad;
+
+    /**
+     * Botón para añadir un elefante
+     */
     private JRadioButton addElefRad;
+
+    /**
+     * Botón para añadir un tigre
+     */
     private JRadioButton addTirgRad;
+
+    /**
+     * Botón para eliminar una unidad
+     */
     private JRadioButton deleteUnit;
+
+    /**
+     * Botón para confirmar la acción
+     */
     private JButton confirmButton;
+
+    /**
+     * Botón para finalizar la creación del ejército
+     */
     private JButton endButton;
+
+    /**
+     * Tabla que muestra el ataque, defensa y salud total del ejército
+     */
     private JTable totalArmy;
+
+    /**
+     * Etiqueta que muestra el peso total del ejército
+     */
     private JLabel pesoLabel;
+
+    /**
+     * Etiqueta que muestra el ataque, defensa y salud total del ejército
+     */
     private JLabel totalLabel;
 
+    /**
+     * Panel que muestra el ataque, defensa y salud total del ejército
+     */
+    private JScrollPane panelTotal;
+
+    /**
+     * Grupo de botones
+     */
+    private ButtonGroup buttonGroup;
+
+    /**
+     * Vector que almacena los datos de las unidades del ejército
+     */
     private Vector<Vector<Object>> data;
+
+    /**
+     * Vector que almacena los datos del ejército
+     */
+    private Vector<Vector<Object>> dataTotal;
+
+    /**
+     * Objeto que representa el ejército
+     */
     private Ejercito ejercito;
 
-//    private final Batalla batalla = new Batalla();
+    /**
+     * Objeto que representa la batalla
+     */
+    private static final Batalla batalla = new Batalla();
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("EjercitoVista");
-        frame.setContentPane(new EjercitoVista().panel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+    /**
+     * Constructor de la clase EjercitoVista. Inicializa los componentes de la vista y la muestra por pantalla.
+     */
+    public EjercitoVista() {
+        setContentPane(panel);
+        setLocation(500, 200);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        pack();
+        setVisible(true);
     }
 
+
+    /**
+     * Método que inicializa los componentes de la vista.
+     */
     private void createUIComponents() {
         initComponents();
+
+        buttonGroup.add(nameArmyRad);
+        buttonGroup.add(addCabRad);
+        buttonGroup.add(addInfRad);
+        buttonGroup.add(addGenRad);
+        buttonGroup.add(addElefRad);
+        buttonGroup.add(addTirgRad);
+        buttonGroup.add(deleteUnit);
 
         pesoBar.setMinimum(0);
         pesoBar.setMaximum(Ejercito.getMaxPeso());
@@ -49,26 +169,41 @@ public class EjercitoVista {
 
         Vector<String> columnNames = new Vector<>(Arrays.asList("Nombre", "Tipo", "Ataque", "Defensa", "Salud"));
 
-        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
-        aboutArmy = new JTable(tableModel);
+        DefaultTableModel tableArmy = new DefaultTableModel(data, columnNames);
+        aboutArmy = new JTable(tableArmy);
 
-        nameArmyRad.addActionListener(e -> {
-            String name = JOptionPane.showInputDialog("Introduce el nombre del ejercito");
+        Vector<String> columnNamesTotal = new Vector<>(Arrays.asList("Ataque", "Defensa", "Salud"));
+        dataTotal.addFirst(new Vector<>(Arrays.asList("Ataque", "Defensa", "Salud")));
 
-            ejercito.asignarNombre(name);
-            nameArmyRad.setEnabled(false);
 
-            nameArmy.setText("Ejército: " + name);
-        });
+        DefaultTableModel tableTotal = new DefaultTableModel(dataTotal, columnNamesTotal);
+        totalArmy = new JTable(tableTotal);
 
         confirmButton.addActionListener(e -> {
             if (!deleteUnit.isSelected()) {
+                if (nameArmyRad.isSelected()) {
+                    String name = JOptionPane.showInputDialog("Introduce el nombre del ejercito");
+
+                    ejercito.asignarNombre(name);
+
+                    if (ejercito.getResultExecute() == 1) {
+                        if (name.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, Message.ERROR_NAME_EMPTY);
+                        } else {
+                            nameArmyRad.setEnabled(false);
+                            nameArmyRad.setSelected(false);
+                            nameArmy.setText("Ejército: " + name);
+                        }
+                    }
+                }
+
                 if (addInfRad.isSelected()) {
                     ejercito.menu("b");
                     pesoBar.setValue(ejercito.getSaldoPeso());
 
                     if (ejercito.getResultExecute() == 1) {
                         getAboutUnit();
+                        ejercito.setResultExecute(0);
                     }
                 }
 
@@ -78,6 +213,7 @@ public class EjercitoVista {
 
                     if (ejercito.getResultExecute() == 1) {
                         getAboutUnit();
+                        ejercito.setResultExecute(0);
                     }
                 }
 
@@ -87,6 +223,7 @@ public class EjercitoVista {
 
                     if (ejercito.getResultExecute() == 1) {
                         getAboutUnit();
+                        ejercito.setResultExecute(0);
                     }
 
                 }
@@ -97,6 +234,7 @@ public class EjercitoVista {
 
                     if (ejercito.getResultExecute() == 1) {
                         getAboutUnit();
+                        ejercito.setResultExecute(0);
                     }
                 }
 
@@ -106,19 +244,78 @@ public class EjercitoVista {
 
                     if (ejercito.getResultExecute() == 1) {
                         getAboutUnit();
+                        ejercito.setResultExecute(0);
                     }
                 }
 
-                tableModel.fireTableDataChanged();
-
                 pesoBar.setString(ejercito.getSaldoPeso() + "/" + Ejercito.getMaxPeso());
             } else {
-                pesoBar.setValue(ejercito.getSaldoPeso());
-                data.removeLast();
+                if (ejercito.getUnidades().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, Message.EJERCITO_VACIO);
+                } else {
+                    String nameUnit = JOptionPane.showInputDialog("Introduce el nombre del ejercito");
+
+                    ejercito.eliminarUnidad(nameUnit);
+                    pesoBar.setValue(ejercito.getSaldoPeso());
+
+                    getAboutUnit();
+                }
+            }
+
+            ejercito.actualizarEjercito();
+
+            if (dataTotal.size() > 1) {
+                dataTotal.remove(1);
+            }
+
+            dataTotal.insertElementAt(new Vector<>(Arrays.asList(ejercito.getAtaque(),
+                    ejercito.getDefensa(), ejercito.getSalud())), 1);
+
+            tableArmy.fireTableDataChanged();
+            tableTotal.fireTableDataChanged();
+        });
+
+        endButton.addActionListener(e -> {
+
+            ejercito.menu("i");
+
+            if (ejercito.getResultExecute() == 1 && !nameArmyRad.isEnabled()) {
+                if (batalla.getEjercito1().getUnidades().isEmpty()) {
+                    batalla.setEjercito1(ejercito);
+                    System.out.println(ejercito);
+
+                    new EjercitoVista();
+                } else if (batalla.getEjercito2().getUnidades().isEmpty()) {
+                    batalla.setEjercito2(ejercito);
+                    batalla.luchar();
+
+                    new BatallaVista();
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, Message.EJERCITO_VACIO);
+                }
+
+                dispose();
+
+                try {
+                    GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
+                } catch (IOException ex) {
+                    System.out.printf(ex.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, Message.EJERCITO_SIN_NOMBRE);
             }
         });
     }
 
+    /**
+     * Método que inicializa los componentes de la vista.
+     */
     private void initComponents() {
         confirmButton = new JButton();
         pesoBar = new JProgressBar();
@@ -129,17 +326,37 @@ public class EjercitoVista {
         addElefRad = new JRadioButton();
         addTirgRad = new JRadioButton();
         deleteUnit = new JRadioButton();
+        endButton = new JButton();
+        buttonGroup = new ButtonGroup();
+        panelTotal = new JScrollPane();
         data = new Vector<>();
+        dataTotal = new Vector<>();
         ejercito = new Ejercito();
     }
 
+    /**
+     * Método que obtiene los datos de las unidades del ejército.
+     */
     private void getAboutUnit() {
-        data.add(new Vector<>(Arrays.asList(
-                ejercito.getUnidades().getLast().getNombre(),
-                ejercito.getUnidades().getLast().getClass().getSimpleName(),
-                ejercito.getUnidades().getLast().getAtaque(),
-                ejercito.getUnidades().getLast().getDefensa(),
-                ejercito.getUnidades().getLast().getSalud()
-        )));
+        data.clear();
+
+        for (Componentes componente : ejercito.getUnidades()) {
+            data.add(new Vector<>(Arrays.asList(
+                    componente.getNombre(),
+                    componente.getClass().getSimpleName(),
+                    componente.getAtaque(),
+                    componente.getDefensa(),
+                    componente.getSalud()
+            )));
+        }
+    }
+
+    /**
+     * Método que obtiene la batalla.
+     *
+     * @return batalla
+     */
+    public static Batalla getBatalla() {
+        return batalla;
     }
 }
