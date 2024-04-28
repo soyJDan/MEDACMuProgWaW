@@ -32,14 +32,6 @@
               <text value="Adicionar caballería"/>
             </properties>
           </component>
-          <component id="e8fff" class="javax.swing.JRadioButton" binding="addGenRad" custom-create="true">
-            <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Adicionar general"/>
-            </properties>
-          </component>
           <component id="2e133" class="javax.swing.JRadioButton" binding="addElefRad" custom-create="true">
             <constraints>
               <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -79,6 +71,12 @@
             <properties>
               <text value="Adicionar infantería"/>
             </properties>
+          </component>
+          <component id="dd488" class="javax.swing.JComboBox" binding="addGeneralC" custom-create="true">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
           </component>
         </children>
       </grid>

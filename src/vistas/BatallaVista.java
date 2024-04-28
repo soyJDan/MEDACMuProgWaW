@@ -81,6 +81,8 @@ public class BatallaVista extends JFrame {
 
         battleTable.setModel(new DefaultTableModel(data, columnNames));
 
+        battleTable.setEnabled(false);
+
         txtGanador.setText(EjercitoVista.getBatalla().getGanador().getNombre());
 
         serializarButton.addActionListener(e -> {

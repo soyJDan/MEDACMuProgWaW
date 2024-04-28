@@ -1,7 +1,9 @@
 package vistas;
 
+import componentes.personas.General;
 import controladores.ExploradorFicheros;
 import controladores.GestorFichero;
+import dao.GeneralDao;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -52,10 +54,20 @@ public class PrincipalVista extends JFrame {
 
         lucharButton.addActionListener(e -> {
 
+            GeneralDao.selectGeneral();
+
+            if (!GeneralDao.getGenerales().isEmpty()) {
+                ExploradorFicheros.setRuta("");
+            }
+
             if (ExploradorFicheros.getRuta() == null) {
                 JOptionPane.showMessageDialog(null, "No se ha cargado un general");
             } else {
                 new EjercitoVista();
+
+                for (General general : GeneralDao.getGenerales()) {
+                    System.out.println(general);
+                }
 
                 dispose();
             }
@@ -63,13 +75,25 @@ public class PrincipalVista extends JFrame {
         });
 
         cargarGeneralButton.addActionListener(e -> {
+
+            GeneralDao.selectGeneral();
+
+            if (!GeneralDao.getGenerales().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Ya se ha cargado un general");
+                ExploradorFicheros.setRuta("");
+                return;
+            }
+
             ExploradorFicheros.obtenerRuta();
 
-            try {
-                GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
-            } catch (IOException ex) {
-                System.out.printf(ex.getMessage());
+            GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
+
+            for (int i = 0; i < GestorFichero.getNombreGeneral().size(); i++) {
+                General general = new General();
+                general.setNombre(GestorFichero.getNombreGeneral().get(i));
+                GeneralDao.insertGeneral(general);
             }
+
         });
     }
 

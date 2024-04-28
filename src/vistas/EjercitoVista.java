@@ -4,12 +4,11 @@ import batallas.Batalla;
 import batallas.Ejercito;
 import batallas.Message;
 import componentes.Componentes;
-import controladores.ExploradorFicheros;
-import controladores.GestorFichero;
+import componentes.personas.General;
+import dao.GeneralDao;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Vector;
 
@@ -62,11 +61,6 @@ public class EjercitoVista extends JFrame {
     private JRadioButton addCabRad;
 
     /**
-     * Botón para añadir un general
-     */
-    private JRadioButton addGenRad;
-
-    /**
      * Botón para añadir un elefante
      */
     private JRadioButton addElefRad;
@@ -105,6 +99,7 @@ public class EjercitoVista extends JFrame {
      * Etiqueta que muestra el ataque, defensa y salud total del ejército
      */
     private JLabel totalLabel;
+    private JComboBox addGeneralC;
 
     /**
      * Panel que muestra el ataque, defensa y salud total del ejército
@@ -137,6 +132,11 @@ public class EjercitoVista extends JFrame {
     private static final Batalla batalla = new Batalla();
 
     /**
+     * Objeto que representa el general seleccionado
+     */
+    private static General generalSeleccionado = new General();
+
+    /**
      * Constructor de la clase EjercitoVista. Inicializa los componentes de la vista y la muestra por pantalla.
      */
     public EjercitoVista() {
@@ -157,7 +157,6 @@ public class EjercitoVista extends JFrame {
         buttonGroup.add(nameArmyRad);
         buttonGroup.add(addCabRad);
         buttonGroup.add(addInfRad);
-        buttonGroup.add(addGenRad);
         buttonGroup.add(addElefRad);
         buttonGroup.add(addTirgRad);
         buttonGroup.add(deleteUnit);
@@ -178,6 +177,12 @@ public class EjercitoVista extends JFrame {
 
         DefaultTableModel tableTotal = new DefaultTableModel(dataTotal, columnNamesTotal);
         totalArmy = new JTable(tableTotal);
+
+        GeneralDao.getGenerales().forEach(general -> addGeneralC.addItem(general.getNombre()));
+        addGeneralC.setSelectedIndex(-1);
+
+        aboutArmy.setEnabled(false);
+        totalArmy.setEnabled(false);
 
         confirmButton.addActionListener(e -> {
             if (!deleteUnit.isSelected()) {
@@ -217,16 +222,22 @@ public class EjercitoVista extends JFrame {
                     }
                 }
 
-                if (addGenRad.isSelected()) {
+                if (addGeneralC.getSelectedIndex() != -1) {
+
+                    generalSeleccionado = GeneralDao.getGenerales().get(addGeneralC.getSelectedIndex());
+                    addGeneralC.setEditable(false);
                     ejercito.menu("d");
                     pesoBar.setValue(ejercito.getSaldoPeso());
+                    addGeneralC.setSelectedIndex(-1);
+
+                    GeneralDao.getGenerales().remove(generalSeleccionado);
 
                     if (ejercito.getResultExecute() == 1) {
                         getAboutUnit();
                         ejercito.setResultExecute(0);
                     }
-
                 }
+
 
                 if (addElefRad.isSelected()) {
                     ejercito.menu("e");
@@ -301,12 +312,6 @@ public class EjercitoVista extends JFrame {
                 }
 
                 dispose();
-
-                try {
-                    GestorFichero.obtenerNombreGeneral(ExploradorFicheros.getRuta());
-                } catch (IOException ex) {
-                    System.out.printf(ex.getMessage());
-                }
             } else {
                 JOptionPane.showMessageDialog(null, Message.EJERCITO_SIN_NOMBRE);
             }
@@ -317,12 +322,14 @@ public class EjercitoVista extends JFrame {
      * Método que inicializa los componentes de la vista.
      */
     private void initComponents() {
+        GeneralDao.selectGeneral();
+
         confirmButton = new JButton();
         pesoBar = new JProgressBar();
         nameArmyRad = new JRadioButton();
         addInfRad = new JRadioButton();
         addCabRad = new JRadioButton();
-        addGenRad = new JRadioButton();
+        addGeneralC = new JComboBox();
         addElefRad = new JRadioButton();
         addTirgRad = new JRadioButton();
         deleteUnit = new JRadioButton();
@@ -358,5 +365,9 @@ public class EjercitoVista extends JFrame {
      */
     public static Batalla getBatalla() {
         return batalla;
+    }
+
+    public static General getGeneralSeleccionado() {
+        return generalSeleccionado;
     }
 }

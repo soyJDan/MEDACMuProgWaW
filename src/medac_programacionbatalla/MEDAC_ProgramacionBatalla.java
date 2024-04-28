@@ -4,6 +4,8 @@
  */
 package medac_programacionbatalla;
 
+import dao.GeneralDao;
+import dao.SchemaDao;
 import vistas.PrincipalVista;
 
 /**
@@ -15,12 +17,11 @@ public class MEDAC_ProgramacionBatalla {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        SchemaDao.createSchema();
+        GeneralDao.createTable("GENERAL");
 
-//        String test = ExploradorFicheros.leerFichero();
         PrincipalVista principalVista = new PrincipalVista();
         principalVista.setSize(400, 300);
-
-//        Batalla batalla = new Batalla();
 
 
     }

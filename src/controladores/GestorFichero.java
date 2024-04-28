@@ -1,7 +1,6 @@
 package controladores;
 
 import batallas.Batalla;
-import es.medac.models.Team;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -25,43 +24,28 @@ public class GestorFichero {
     private static final Random random = new Random();
     private String rutaFichero;
     private BufferedReader br;
-    private List<String> nombreGeneral;
+    private static List<String> nombreGeneral = new ArrayList<>();
     private static String nombreDeGeneral;
 
-    public GestorFichero() {
-
-    }
-
-    public List<String> leerArchivo() throws IOException {
-        nombreGeneral = new ArrayList<>();
-        String linea;
-        while ((linea = this.br.readLine()) != null) {
-            nombreGeneral.add(linea);
-        }
-        return nombreGeneral;
+    private GestorFichero() {
+        throw new IllegalStateException("Utility class");
     }
 
     /**
      * @param rutaFichero Ruta del fichero que se quiere leer
      */
-    public static String obtenerNombreGeneral(String rutaFichero) throws IOException {
+    public static void obtenerNombreGeneral(String rutaFichero) {
+        try (FileReader fileReader = new FileReader(new File(rutaFichero));
+             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
 
-        File lector = new File(rutaFichero);
-
-        List<String> nombreGeneral;
-        try (FileReader fr = new FileReader(lector);
-             BufferedReader br = new BufferedReader(fr)) {
-
-            nombreGeneral = new ArrayList<>();
             String linea;
-            while ((linea = br.readLine()) != null) {
+
+            while ((linea = bufferedReader.readLine()) != null) {
                 nombreGeneral.add(linea);
             }
+        } catch (IOException e) {
+            System.err.println("Error al leer el fichero de nombres de generales.");
         }
-
-
-        int indiceGeneralAleatorio = random.nextInt(nombreGeneral.size());
-        return nombreDeGeneral = nombreGeneral.get(indiceGeneralAleatorio);
     }
 
     public static void writeXmlBatalla(Batalla batalla, String nameFile) {
@@ -101,5 +85,9 @@ public class GestorFichero {
 
     public static String getNombreDeGeneral() {
         return nombreDeGeneral;
+    }
+
+    public static List<String> getNombreGeneral() {
+        return nombreGeneral;
     }
 }

@@ -45,4 +45,8 @@ public class ExploradorFicheros {
     public static String getRuta() {
         return ruta;
     }
+
+    public static void setRuta(String ruta) {
+        ExploradorFicheros.ruta = ruta;
+    }
 }

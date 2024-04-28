@@ -14,6 +14,7 @@ import excepciones.animales.MaxAnimalesException;
 import excepciones.batallas.*;
 import excepciones.personas.GeneralMinimoException;
 import excepciones.personas.MaxCapGeneralException;
+import vistas.EjercitoVista;
 
 import javax.swing.*;
 import java.io.Serializable;
@@ -153,7 +154,7 @@ public class Ejercito implements Serializable {
             case "d":
                 try {
                     if (((saldoPeso + General.PESO_GENERAL) <= MAX_PESO) && !hayGeneral) {
-                        adicionarUnidad(new General());
+                        adicionarUnidad(EjercitoVista.getGeneralSeleccionado());
                         imprimirInfo(unidades.getLast());
                         resultExecute = 1;
                     } else {
@@ -357,7 +358,7 @@ public class Ejercito implements Serializable {
 
                     System.out.println(unidad.getNombre() + ": " + Message.UNIDAD_ELIM_SATIS);
 
-                    break;
+                    return;
                 }
             }
 
