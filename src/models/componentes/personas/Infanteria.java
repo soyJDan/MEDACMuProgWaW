@@ -2,23 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package componentes.animales;
+package models.componentes.personas;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author danie
  */
-public class Tigre extends Animal {
-    public static final int PESO_TIGRE = 5;
+public class Infanteria extends Persona {
+    public static final int PESO_INFANTERIA = 1;
 
-    public Tigre() {
+    public Infanteria() {
         super();
-        setMultiplicador(1.5f);
-        setPeso(PESO_TIGRE);
-
-        List<Integer> atributos = generarAtributos(150);
+        setMultiplicador(1f);
+        setPeso(PESO_INFANTERIA);
+        List<Integer> atributos = generarAtributos(100);
         setAtaque((int) Math.ceil(atributos.get(0) * getMultiplicador()));
         setDefensa((int) Math.ceil(atributos.get(1) * getMultiplicador()));
         setSalud((int) Math.ceil(atributos.get(2) * getMultiplicador()));
@@ -26,7 +24,7 @@ public class Tigre extends Animal {
 
     @Override
     public String toString() {
-        return "Tigre {" +
+        return "Soldado de Infanteria {" +
                 "Nombre='" + this.getNombre() + '\'' +
                 ", Ataque='" + this.getAtaque() + '\'' +
                 ", Defensa='" + this.getDefensa() + '\'' +

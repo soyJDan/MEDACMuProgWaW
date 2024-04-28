@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package componentes.personas;
+package models.componentes.animales;
 
 import java.util.List;
 
@@ -10,27 +10,27 @@ import java.util.List;
  *
  * @author danie
  */
-public class Caballeria extends Persona {
-    public static final int PESO_CABALLERIA = 2;
-    public Caballeria(){
+public class Elefante extends Animal{
+public static final int PESO_ELEFANTE = 10;    
+    public Elefante(){
         super();
-        setMultiplicador(1.5f);   
-        setPeso(PESO_CABALLERIA);        
-        List<Integer> atributos = generarAtributos(100);
+        setMultiplicador(2f);   
+        setPeso(10);
+
+        List<Integer> atributos = generarAtributos(150);
         setAtaque((int) Math.ceil(atributos.get(0)*getMultiplicador()));
         setDefensa((int) Math.ceil(atributos.get(1)*getMultiplicador()));
-        setSalud((int) Math.ceil(atributos.get(2)*getMultiplicador()));
-
+        setSalud((int) Math.ceil(atributos.get(2)*getMultiplicador()));    
     }
     
     @Override
 public String toString() {
-        return "Soldado de Caballeria {" +
+        return "Elefante {" +
                 "Nombre='" + this.getNombre() + '\'' +
                 ", Ataque='" + this.getAtaque() + '\'' +
                 ", Defensa='" + this.getDefensa() + '\'' +
                 ", Salud='" + this.getSalud() + '\'' +                
                 ", Peso='" + this.getPeso() + '\'' +
                 '}';
-    }    
+    }       
 }

@@ -4,6 +4,8 @@ import batallas.Ronda;
 import controladores.ExploradorFicheros;
 import controladores.GestorFichero;
 import controladores.SerializarBatalla;
+import dao.TopScoreDao;
+import models.score.TopScore;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -57,6 +59,8 @@ public class BatallaVista extends JFrame {
      */
     private Vector<Vector<Object>> data;
 
+    private static final TopScore topScore = new TopScore();
+
     /**
      * Constructor de la clase BatallaVista que inicializa la vista de la batalla
      */
@@ -69,11 +73,12 @@ public class BatallaVista extends JFrame {
     }
 
     /**
-     * Método que crea los componentes de la vista de la batalla
+     * Método que crea los models.score.componentes de la vista de la batalla
      */
     private void createUIComponents() {
         initComponents();
 
+        String winner = EjercitoVista.getBatalla().getGanador().getNombre();
         txtGanador.setEnabled(false);
 
         columnNames.addAll(Arrays.asList("Ronda", "Atacante", "Defensor", "Resultado"));
@@ -83,7 +88,12 @@ public class BatallaVista extends JFrame {
 
         battleTable.setEnabled(false);
 
-        txtGanador.setText(EjercitoVista.getBatalla().getGanador().getNombre());
+        txtGanador.setText(winner);
+
+        topScore.setEjercito(EjercitoVista.getBatalla().getGanador());
+        topScore.setFecha(new java.sql.Date(new java.util.Date().getTime()));
+
+        TopScoreDao.insertTopScore(topScore);
 
         serializarButton.addActionListener(e -> {
             ExploradorFicheros.obtenerRuta();
@@ -106,7 +116,7 @@ public class BatallaVista extends JFrame {
     }
 
     /**
-     * Método que inicializa los componentes de la vista de la batalla
+     * Método que inicializa los models.score.componentes de la vista de la batalla
      */
     private void initComponents() {
         battleTable = new JTable();

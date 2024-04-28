@@ -2,28 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package componentes.personas;
-
-import controladores.ExploradorFicheros;
-import controladores.GestorFichero;
-import dao.GeneralDao;
+package models.componentes.animales;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * @author danie
  */
-public class General extends Persona {
-    public static final int PESO_GENERAL = 1;
+public class Tigre extends Animal {
+    public static final int PESO_TIGRE = 5;
 
-    public General() {
+    public Tigre() {
         super();
-        Random random = new Random();
-        setMultiplicador(random.nextFloat(2, 3));
-        setPeso(PESO_GENERAL);
+        setMultiplicador(1.5f);
+        setPeso(PESO_TIGRE);
 
-        List<Integer> atributos = generarAtributos(100);
+        List<Integer> atributos = generarAtributos(150);
         setAtaque((int) Math.ceil(atributos.get(0) * getMultiplicador()));
         setDefensa((int) Math.ceil(atributos.get(1) * getMultiplicador()));
         setSalud((int) Math.ceil(atributos.get(2) * getMultiplicador()));
@@ -31,7 +25,7 @@ public class General extends Persona {
 
     @Override
     public String toString() {
-        return "General {" +
+        return "Tigre {" +
                 "Nombre='" + this.getNombre() + '\'' +
                 ", Ataque='" + this.getAtaque() + '\'' +
                 ", Defensa='" + this.getDefensa() + '\'' +

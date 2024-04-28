@@ -4,12 +4,12 @@
  */
 package batallas;
 
-import componentes.Componentes;
-import componentes.animales.Elefante;
-import componentes.animales.Tigre;
-import componentes.personas.Caballeria;
-import componentes.personas.General;
-import componentes.personas.Infanteria;
+import models.componentes.Componentes;
+import models.componentes.animales.Elefante;
+import models.componentes.animales.Tigre;
+import models.componentes.personas.Caballeria;
+import models.componentes.personas.General;
+import models.componentes.personas.Infanteria;
 import excepciones.animales.MaxAnimalesException;
 import excepciones.batallas.*;
 import excepciones.personas.GeneralMinimoException;

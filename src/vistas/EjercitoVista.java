@@ -3,8 +3,8 @@ package vistas;
 import batallas.Batalla;
 import batallas.Ejercito;
 import batallas.Message;
-import componentes.Componentes;
-import componentes.personas.General;
+import models.componentes.Componentes;
+import models.componentes.personas.General;
 import dao.GeneralDao;
 
 import javax.swing.*;
@@ -137,7 +137,7 @@ public class EjercitoVista extends JFrame {
     private static General generalSeleccionado = new General();
 
     /**
-     * Constructor de la clase EjercitoVista. Inicializa los componentes de la vista y la muestra por pantalla.
+     * Constructor de la clase EjercitoVista. Inicializa los models.score.componentes de la vista y la muestra por pantalla.
      */
     public EjercitoVista() {
         setContentPane(panel);
@@ -149,7 +149,7 @@ public class EjercitoVista extends JFrame {
 
 
     /**
-     * Método que inicializa los componentes de la vista.
+     * Método que inicializa los models.score.componentes de la vista.
      */
     private void createUIComponents() {
         initComponents();
@@ -319,7 +319,7 @@ public class EjercitoVista extends JFrame {
     }
 
     /**
-     * Método que inicializa los componentes de la vista.
+     * Método que inicializa los models.score.componentes de la vista.
      */
     private void initComponents() {
         GeneralDao.selectGeneral();

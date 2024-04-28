@@ -1,15 +1,17 @@
 package vistas;
 
-import componentes.personas.General;
+import dao.TopScoreDao;
+import models.componentes.personas.General;
 import controladores.ExploradorFicheros;
 import controladores.GestorFichero;
 import dao.GeneralDao;
 
 import javax.swing.*;
-import java.io.IOException;
+import javax.swing.table.DefaultTableModel;
+import java.util.Vector;
 
 /**
- * Clase que crea la vista principal de la aplicación y sus componentes gráficos. Esta vista es la primera que se
+ * Clase que crea la vista principal de la aplicación y sus models.score.componentes gráficos. Esta vista es la primera que se
  * muestra al usuario y le permite cargar un general y pasar a la vista de la batalla.
  */
 public class PrincipalVista extends JFrame {
@@ -33,24 +35,46 @@ public class PrincipalVista extends JFrame {
      * Botón para cargar un general.
      */
     private JButton cargarGeneralButton;
+    private JTable topScoreTable;
 
     /**
-     * Constructor de la clase. Crea la vista principal y sus componentes gráficos.
+     * Constructor de la clase. Crea la vista principal y sus models.score.componentes gráficos.
      */
     public PrincipalVista() {
         super("World At War");
         setContentPane(panel);
-        setLocation(500, 200);
+        setLocation(800, 300);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
     }
 
     /**
-     * Método que inicializa los componentes gráficos de la vista y añade los listeners a los botones.
+     * Método que inicializa los models.score.componentes gráficos de la vista y añade los listeners a los botones.
      */
     private void createUIComponents() {
         initComponents();
+
+        TopScoreDao.selectBestTopScore(3);
+
+        Vector<Vector<Object>> data = new Vector<>();
+        Vector<Object> columnNames = new Vector<>();
+
+        columnNames.add("ID");
+        columnNames.add("Ejército");
+        columnNames.add("Fecha");
+
+        for (int i = 0; i < TopScoreDao.getTopScores().size(); i++) {
+            Vector<Object> row = new Vector<>();
+            row.add(TopScoreDao.getTopScores().get(i).getId());
+            row.add(TopScoreDao.getTopScores().get(i).getEjercito().getNombre());
+            row.add(TopScoreDao.getTopScores().get(i).getFecha());
+            data.add(row);
+        }
+
+        topScoreTable.setModel(new DefaultTableModel(data, columnNames));
+
+        topScoreTable.setEnabled(false);
 
         lucharButton.addActionListener(e -> {
 
@@ -98,10 +122,11 @@ public class PrincipalVista extends JFrame {
     }
 
     /**
-     * Método que inicializa los componentes gráficos de la vista.
+     * Método que inicializa los models.score.componentes gráficos de la vista.
      */
     private void initComponents() {
         lucharButton = new JButton();
         cargarGeneralButton = new JButton();
+        topScoreTable = new JTable();
     }
 }

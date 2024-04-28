@@ -6,6 +6,7 @@ package medac_programacionbatalla;
 
 import dao.GeneralDao;
 import dao.SchemaDao;
+import dao.TopScoreDao;
 import vistas.PrincipalVista;
 
 /**
@@ -19,6 +20,7 @@ public class MEDAC_ProgramacionBatalla {
     public static void main(String[] args) {
         SchemaDao.createSchema();
         GeneralDao.createTable("GENERAL");
+        TopScoreDao.createTable("TOPSCORE");
 
         PrincipalVista principalVista = new PrincipalVista();
         principalVista.setSize(400, 300);

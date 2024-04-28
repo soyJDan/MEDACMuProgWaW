@@ -1,6 +1,6 @@
 package dao;
 
-import componentes.personas.General;
+import models.componentes.personas.General;
 import utilidades.MySqlConnection;
 
 import java.sql.Connection;
