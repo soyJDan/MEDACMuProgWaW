@@ -1,6 +1,7 @@
 package models.score;
 
 import batallas.Ejercito;
+import models.componentes.personas.General;
 
 import java.sql.Date;
 
