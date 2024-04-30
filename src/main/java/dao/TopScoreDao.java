@@ -22,6 +22,7 @@ public class TopScoreDao {
             String query = "CREATE TABLE IF NOT EXISTS `" + name + "` ("
                     + "ID INT AUTO_INCREMENT PRIMARY KEY,"
                     + "EJERCITO VARCHAR(100) NOT NULL,"
+                    + "GENERAL FOREIGN KEY  NOT NULL,"
                     + "FECHA DATE NOT NULL"
                     + ");";
 
