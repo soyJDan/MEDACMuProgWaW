@@ -5,6 +5,7 @@ import models.componentes.personas.General;
 import controladores.ExploradorFicheros;
 import controladores.GestorFichero;
 import dao.GeneralDao;
+import models.score.TopScore;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -36,6 +37,7 @@ public class PrincipalVista extends JFrame {
      */
     private JButton cargarGeneralButton;
     private JTable topScoreTable;
+    private JScrollPane scrollBest;
 
     /**
      * Constructor de la clase. Crea la vista principal y sus models.score.componentes gráficos.
@@ -62,19 +64,32 @@ public class PrincipalVista extends JFrame {
 
         columnNames.add("ID");
         columnNames.add("Ejército");
+        columnNames.add("General");
+        columnNames.add("Resultado");
         columnNames.add("Fecha");
+
+        String nombreGeneral = "";
+
+        GeneralDao.selectGeneral();
+        TopScoreDao.selectTopScores();
 
         for (int i = 0; i < TopScoreDao.getTopScores().size(); i++) {
             Vector<Object> row = new Vector<>();
             row.add(TopScoreDao.getTopScores().get(i).getId());
             row.add(TopScoreDao.getTopScores().get(i).getEjercito().getNombre());
+            row.add(TopScoreDao.getTopScores().get(i).getGeneral().getNombre());
+            row.add(TopScoreDao.getTopScores().get(i).getResultado());
             row.add(TopScoreDao.getTopScores().get(i).getFecha());
+
             data.add(row);
         }
 
         topScoreTable.setModel(new DefaultTableModel(data, columnNames));
 
         topScoreTable.setEnabled(false);
+
+        topScoreTable.setRowHeight(30);
+
 
         lucharButton.addActionListener(e -> {
 
@@ -128,5 +143,6 @@ public class PrincipalVista extends JFrame {
         lucharButton = new JButton();
         cargarGeneralButton = new JButton();
         topScoreTable = new JTable();
+        scrollBest = new JScrollPane();
     }
 }

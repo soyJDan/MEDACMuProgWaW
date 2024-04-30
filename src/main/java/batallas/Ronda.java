@@ -12,7 +12,7 @@ public class Ronda {
     private int numRonda;
     private static Ejercito atacante;
     private static Ejercito defensor;
-    private int resultado;
+    private final int resultado;
     
     public Ronda(int ronda, Ejercito atacante, Ejercito defensor){
         this.numRonda = ronda;

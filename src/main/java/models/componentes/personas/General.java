@@ -13,6 +13,8 @@ import java.util.Random;
 public class General extends Persona {
     public static final int PESO_GENERAL = 1;
 
+    private long id;
+
     public General() {
         super();
         Random random = new Random();
@@ -34,5 +36,13 @@ public class General extends Persona {
                 ", Salud='" + this.getSalud() + '\'' +
                 ", Peso='" + this.getPeso() + '\'' +
                 '}';
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

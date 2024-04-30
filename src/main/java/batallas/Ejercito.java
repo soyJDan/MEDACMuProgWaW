@@ -418,4 +418,8 @@ public class Ejercito implements Serializable {
                 ", resultExecute=" + resultExecute +
                 '}';
     }
+
+    public General getGeneral() {
+        return (General) unidades.stream().filter(General.class::isInstance).findFirst().orElse(null);
+    }
 }

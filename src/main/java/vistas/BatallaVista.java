@@ -5,6 +5,7 @@ import controladores.ExploradorFicheros;
 import controladores.GestorFichero;
 import controladores.SerializarBatalla;
 import dao.TopScoreDao;
+import models.componentes.personas.General;
 import models.score.TopScore;
 
 import javax.swing.*;
@@ -90,7 +91,17 @@ public class BatallaVista extends JFrame {
 
         txtGanador.setText(winner);
 
+        int resultadoTotal = 0;
+
+        for (Ronda ronda : EjercitoVista.getBatalla().getRondas()) {
+            resultadoTotal += ronda.getResultado();
+        }
+
+
+
         topScore.setEjercito(EjercitoVista.getBatalla().getGanador());
+        topScore.setGeneral(EjercitoVista.getBatalla().getGanador().getGeneral());
+        topScore.setResultado(resultadoTotal);
         topScore.setFecha(new java.sql.Date(new java.util.Date().getTime()));
 
         TopScoreDao.insertTopScore(topScore);

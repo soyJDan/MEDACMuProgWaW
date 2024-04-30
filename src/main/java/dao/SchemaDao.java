@@ -14,7 +14,7 @@ public class SchemaDao {
      */
     private static final Dotenv dotenv = Dotenv.load();
 
-    public static final String NAME_SCHEMA = dotenv.get("NAME_SCHEMA");
+    public static final String NAME_SCHEMA = dotenv.get("MYSQL_SCHEMA");
 
     /**
      * Conexión a la base de datos

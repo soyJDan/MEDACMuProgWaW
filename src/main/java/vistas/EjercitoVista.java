@@ -195,8 +195,8 @@ public class EjercitoVista extends JFrame {
                         if (name.isEmpty()) {
                             JOptionPane.showMessageDialog(null, Message.ERROR_NAME_EMPTY);
                         } else {
-                            nameArmyRad.setEnabled(false);
                             nameArmyRad.setSelected(false);
+                            nameArmyRad.setEnabled(false);
                             nameArmy.setText("Ejército: " + name);
                         }
                     }

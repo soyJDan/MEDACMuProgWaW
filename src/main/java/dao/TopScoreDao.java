@@ -1,6 +1,7 @@
 package dao;
 
 import batallas.Ejercito;
+import models.componentes.personas.General;
 import models.score.TopScore;
 import utilidades.MySqlConnection;
 
@@ -22,8 +23,11 @@ public class TopScoreDao {
             String query = "CREATE TABLE IF NOT EXISTS `" + name + "` ("
                     + "ID INT AUTO_INCREMENT PRIMARY KEY,"
                     + "EJERCITO VARCHAR(100) NOT NULL,"
-                    + "GENERAL FOREIGN KEY  NOT NULL,"
-                    + "FECHA DATE NOT NULL"
+                    + "GENERAL_ID INT,"
+                    + "RESULTADO INT NOT NULL,"
+                    + "FECHA DATE NOT NULL," +
+                    "" +
+                    "FOREIGN KEY (GENERAL_ID) REFERENCES GENERAL(ID)"
                     + ");";
 
             nameTable = name;
@@ -58,7 +62,14 @@ public class TopScoreDao {
         } else {
             try (Connection connection = MySqlConnection.getConnection();
                  Statement statement = connection.createStatement()) {
-                String query = "INSERT INTO " + nameTable + " (EJERCITO, FECHA) VALUES ('" + topScore.getEjercito().getNombre() + "', '" + topScore.getFecha() + "');";
+
+                GeneralDao.selectGeneral();
+
+                String query = "INSERT INTO " + nameTable + " (EJERCITO, GENERAL_ID, RESULTADO, FECHA) VALUES ('"
+                        + topScore.getEjercito().getNombre() + "', "
+                        + topScore.getGeneral().getId() + ", "
+                        + topScore.getResultado() + ", '"
+                        + topScore.getFecha() + "');";
                 statement.executeUpdate(query);
                 System.out.println("TopScore insertado");
                 System.out.println("Conexión cerrada");
@@ -85,15 +96,28 @@ public class TopScoreDao {
     public static void selectBestTopScore(int limit) {
         try (Connection connection = MySqlConnection.getConnection();
              Statement statement = connection.createStatement()) {
-            String query = "SELECT * FROM " + nameTable + " ORDER BY FECHA DESC LIMIT " + limit + ";";
+            String query = "SELECT * FROM " + nameTable + " ORDER BY RESULTADO DESC LIMIT " + limit + ";";
             statement.executeQuery(query);
 
             Ejercito ejercito = new Ejercito();
+            
+            GeneralDao.selectGeneral();
+            General generalWin = null;
 
             while (statement.getResultSet().next()) {
+
+                for (General general : GeneralDao.getGenerales()) {
+                    if (general.getId() == statement.getResultSet().getInt("GENERAL_ID")) {
+                        generalWin = general;
+                        break;
+                    }
+                }
+
                 TopScore topScore = new TopScore();
                 topScore.setId(statement.getResultSet().getLong("ID"));
                 ejercito.asignarNombre(statement.getResultSet().getString("EJERCITO"));
+                topScore.setResultado(statement.getResultSet().getInt("RESULTADO"));
+                topScore.setGeneral(generalWin);
                 topScore.setFecha(statement.getResultSet().getDate("FECHA"));
                 topScore.setEjercito(ejercito);
                 topScores.add(topScore);

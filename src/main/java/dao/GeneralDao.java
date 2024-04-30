@@ -138,6 +138,7 @@ public class GeneralDao {
 
                 while (statement.getResultSet().next()) {
                     General general = new General();
+                    general.setId(statement.getResultSet().getLong("ID"));
                     general.setNombre(statement.getResultSet().getString("NAME"));
                     general.setSalud(statement.getResultSet().getInt("HEALTH"));
                     general.setAtaque(statement.getResultSet().getInt("ATTACK"));
