@@ -1,6 +1,6 @@
 package utilidades;
 
-import dao.SchemaDao;
+import dao.mysql.SchemaDao;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.sql.Connection;

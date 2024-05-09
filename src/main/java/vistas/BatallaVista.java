@@ -4,8 +4,7 @@ import batallas.Ronda;
 import controladores.ExploradorFicheros;
 import controladores.GestorFichero;
 import controladores.SerializarBatalla;
-import dao.TopScoreDao;
-import models.componentes.personas.General;
+import dao.mysql.TopScoreDao;
 import models.score.TopScore;
 
 import javax.swing.*;
@@ -96,8 +95,6 @@ public class BatallaVista extends JFrame {
         for (Ronda ronda : EjercitoVista.getBatalla().getRondas()) {
             resultadoTotal += ronda.getResultado();
         }
-
-
 
         topScore.setEjercito(EjercitoVista.getBatalla().getGanador());
         topScore.setGeneral(EjercitoVista.getBatalla().getGanador().getGeneral());

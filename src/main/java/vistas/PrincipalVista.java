@@ -1,11 +1,10 @@
 package vistas;
 
-import dao.TopScoreDao;
+import dao.mysql.TopScoreDao;
 import models.componentes.personas.General;
 import controladores.ExploradorFicheros;
 import controladores.GestorFichero;
-import dao.GeneralDao;
-import models.score.TopScore;
+import dao.mysql.GeneralDao;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

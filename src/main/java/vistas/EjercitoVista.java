@@ -5,7 +5,7 @@ import batallas.Ejercito;
 import batallas.Message;
 import models.componentes.Componentes;
 import models.componentes.personas.General;
-import dao.GeneralDao;
+import dao.mysql.GeneralDao;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

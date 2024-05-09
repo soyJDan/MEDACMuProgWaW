@@ -27,6 +27,16 @@ public class General extends Persona {
         setSalud((int) Math.ceil(atributos.get(2) * getMultiplicador()));
     }
 
+    public General(long id, String nombre, int ataque, int defensa, int salud, int peso) {
+        this.setId(id);
+        this.setNombre(nombre);
+        this.setAtaque(ataque);
+        this.setId(defensa);
+        this.setSalud(salud);
+        this.setPeso(peso);
+    }
+
+
     @Override
     public String toString() {
         return "General {" +
