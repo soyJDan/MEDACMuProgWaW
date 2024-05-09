@@ -1,4 +1,4 @@
-package dao;
+package dao.mysql;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import utilidades.MySqlConnection;

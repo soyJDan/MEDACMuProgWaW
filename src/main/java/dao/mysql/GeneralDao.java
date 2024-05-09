@@ -1,4 +1,4 @@
-package dao;
+package dao.mysql;
 
 import models.componentes.personas.General;
 import utilidades.MySqlConnection;

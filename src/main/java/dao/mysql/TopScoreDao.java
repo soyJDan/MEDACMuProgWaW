@@ -1,4 +1,4 @@
-package dao;
+package dao.mysql;
 
 import batallas.Ejercito;
 import models.componentes.personas.General;
