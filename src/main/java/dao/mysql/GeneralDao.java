@@ -1,7 +1,7 @@
 package dao.mysql;
 
 import models.componentes.personas.General;
-import utilidades.MySqlConnection;
+import utilidades.mysql.MySqlConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -6,7 +6,7 @@ import com.db4o.ext.Db4oException;
 import com.db4o.query.Constraint;
 import com.db4o.query.Query;
 import models.componentes.personas.General;
-import utilidades.Db4oConnection;
+import utilidades.db4o.Db4oConnection;
 
 import java.util.ArrayList;
 import java.util.List;

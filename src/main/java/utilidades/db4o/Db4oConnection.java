@@ -1,4 +1,4 @@
-package utilidades;
+package utilidades.db4o;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
@@ -8,7 +8,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 /**
  * Clase que gestiona la conexión con la base de datos de db4o.
  */
-public class Db4oConnection {
+public final class Db4oConnection {
 
     /**
      * Carga las variables de entorno del archivo .env

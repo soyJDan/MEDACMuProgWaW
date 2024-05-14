@@ -1,37 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package models.componentes.personas;
 
 import java.util.List;
-import java.util.Random;
 
-/**
- * @author danie
- */
-public class General extends Persona {
-    public static final int PESO_GENERAL = 1;
+public class Heroe extends Persona {
+
+    public static final int PESO_HEROE = 5;
 
     private long id;
 
-    public General() {
+    public Heroe() {
         super();
-        Random random = new Random();
-        setMultiplicador(random.nextFloat(2, 3));
-        setPeso(PESO_GENERAL);
+        setMultiplicador(1.5f);
+        setPeso(PESO_HEROE);
 
-        List<Integer> atributos = generarAtributos(100);
+        List<Integer> atributos = generarAtributos(150);
         setAtaque((int) Math.ceil(atributos.get(0) * getMultiplicador()));
         setDefensa((int) Math.ceil(atributos.get(1) * getMultiplicador()));
         setSalud((int) Math.ceil(atributos.get(2) * getMultiplicador()));
     }
 
-    public General(long id, String nombre, int ataque, int defensa, int salud, int peso) {
+    public Heroe(long id, String nombre, int ataque, int defensa, int salud, int peso) {
         this.setId(id);
         this.setNombre(nombre);
         this.setAtaque(ataque);
-        this.setId(defensa);
+        this.setDefensa(defensa);
         this.setSalud(salud);
         this.setPeso(peso);
     }
@@ -46,7 +38,7 @@ public class General extends Persona {
 
     @Override
     public String toString() {
-        return "General {" +
+        return "Heroe {" +
                 "id='" + id + '\'' +
                 ", Nombre='" + this.getNombre() + '\'' +
                 ", Ataque='" + this.getAtaque() + '\'' +

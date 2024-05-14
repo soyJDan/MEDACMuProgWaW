@@ -1,4 +1,4 @@
-package utilidades;
+package utilidades.mysql;
 
 import dao.mysql.SchemaDao;
 import io.github.cdimascio.dotenv.Dotenv;

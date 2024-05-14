@@ -1,7 +1,7 @@
 package dao.mysql;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import utilidades.MySqlConnection;
+import utilidades.mysql.MySqlConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;

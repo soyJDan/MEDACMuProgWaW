@@ -3,7 +3,7 @@ package dao.mysql;
 import batallas.Ejercito;
 import models.componentes.personas.General;
 import models.score.TopScore;
-import utilidades.MySqlConnection;
+import utilidades.mysql.MySqlConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
