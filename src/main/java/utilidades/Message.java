@@ -1,4 +1,4 @@
-package batallas;
+package utilidades;
 
 public final class Message {
 
@@ -25,4 +25,15 @@ public final class Message {
     public static final String BATALLA_INICIO = "¡Comienza la batalla entre ";
     public static final String BATALLA_FIN = "¡La batalla ha terminado!";
     public static final String ERROR_NAME_EMPTY = "El nombre no puede estar vacío";
+
+    // Database messages
+    public static final String ERROR_DB_CONNECTION = "Error in the connection with the database";
+    public static final String ERROR_DB_INSERTION = "Error in the insertion of the";
+    public static final String CONNECTION_CLOSED = "Connection closed";
+    public static final String ERROR_CLOSING_CONNECTION = "Error closing the connection";
+    public static final String INSERTION_SUCCESSFUL = "Insertion successful";
+    public static final String INSERTION_SUCCESSFUL_LIST = "Insertion of list successful";
+    public static final String DELETE_SUCCESSFUL = "Deletion successful";
+    public static final String DELETE_SUCCESSFUL_LIST = "Deletion successful";
+
 }

@@ -9,11 +9,13 @@ import models.componentes.animales.Elefante;
 import models.componentes.animales.Tigre;
 import models.componentes.personas.Caballeria;
 import models.componentes.personas.General;
+import models.componentes.personas.Heroe;
 import models.componentes.personas.Infanteria;
 import excepciones.animales.MaxAnimalesException;
 import excepciones.batallas.*;
 import excepciones.personas.GeneralMinimoException;
 import excepciones.personas.MaxCapGeneralException;
+import utilidades.Message;
 import vistas.EjercitoVista;
 
 import javax.swing.*;
@@ -173,8 +175,8 @@ public class Ejercito implements Serializable {
                 break;
             case "e":
                 try {
-                    if (((saldoPeso + Elefante.PESO_ELEFANTE) <= MAX_PESO) && contadorAnimales < MAX_ANIMALES) {
-                        adicionarUnidad(new Elefante());
+                    if (((saldoPeso + Heroe.PESO_HEROE) <= MAX_PESO) && contadorAnimales < MAX_ANIMALES) {
+                        adicionarUnidad(EjercitoVista.getHeroeSeleccionado());
                         imprimirInfo(unidades.getLast());
                         resultExecute = 1;
                     } else {
@@ -194,50 +196,10 @@ public class Ejercito implements Serializable {
                 }
 
                 break;
-            case "f":
-                try {
-                    if ((saldoPeso + Tigre.PESO_TIGRE) <= MAX_PESO && contadorAnimales < MAX_ANIMALES) {
-                        adicionarUnidad(new Tigre());
-                        imprimirInfo(unidades.getLast());
-                        resultExecute = 1;
-                    } else {
-                        resultExecute = 0;
-
-                        if (saldoPeso == MAX_PESO) {
-                            throw new MaxCapPesoEjercitoException(Message.MAX_CAP_PESO_EJERCITO);
-                        } else if (MAX_ANIMALES == contadorAnimales) {
-                            throw new MaxAnimalesException(Message.MAX_ANIMALES);
-                        } else {
-                            JOptionPane.showMessageDialog(null, Message.UNIDAD_SUPERA_PESO + " " + Message.PESO_DISPONIBLE
-                                    + (MAX_PESO - saldoPeso));
-                        }
-                    }
-                } catch (MaxAnimalesException | MaxCapPesoEjercitoException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage());
-                }
-
-                break;
             case "g":
                 System.out.println(Message.SALDO_ACTUAL + getSaldoPeso());
                 break;
             case "h":
-                try {
-                    if (!unidades.isEmpty()) {
-                        System.out.println("Eliminar unidad del ejército: ");
-                        informacionEjercito();
-                        resultExecute = 1;
-
-                        System.out.println("Nombre de la unidad a eliminar: ");
-//                            String nombreUnidad = scanner.nextLine();
-
-//                            eliminarUnidad(nombreUnidad);
-                    } else {
-                        resultExecute = 0;
-                        throw new EjercitoVacioException(Message.EJERCITO_VACIO);
-                    }
-                } catch (EjercitoVacioException e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage());
-                }
 
                 break;
             case "i":

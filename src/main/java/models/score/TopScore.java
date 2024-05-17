@@ -3,25 +3,25 @@ package models.score;
 import batallas.Ejercito;
 import models.componentes.personas.General;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class TopScore {
 
     private long id;
     private Ejercito ejercito;
     private General general;
-    private int resultado;
     private Date fecha;
+    private int resultado;
 
     public TopScore() {
     }
 
-    public TopScore(long id, Ejercito ejercito, General general, int resultado, Date fecha) {
+    public TopScore(long id, Ejercito ejercito, General general, Date fecha, int resultado) {
         this.id = id;
         this.ejercito = ejercito;
         this.general = general;
-        this.resultado = resultado;
         this.fecha = fecha;
+        this.resultado = resultado;
     }
 
     public long getId() {
@@ -48,6 +48,14 @@ public class TopScore {
         this.general = general;
     }
 
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
     public int getResultado() {
         return resultado;
     }
@@ -56,11 +64,14 @@ public class TopScore {
         this.resultado = resultado;
     }
 
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    @Override
+    public String toString() {
+        return "TopScore{" +
+                "id=" + id +
+                ", ejercito=" + ejercito +
+                ", general=" + general +
+                ", fecha=" + fecha +
+                ", resultado=" + resultado +
+                '}';
     }
 }

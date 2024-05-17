@@ -36,7 +36,7 @@ public final class Db4oConnection {
         }
 
         try {
-            return Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4O_FILE);
+            return Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4O_FILE + ".db4o");
         } catch (Db4oException e) {
             System.err.println("Error en la conexión con el driver");
             System.err.println(e.getMessage());

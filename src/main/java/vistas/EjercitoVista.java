@@ -2,14 +2,18 @@ package vistas;
 
 import batallas.Batalla;
 import batallas.Ejercito;
-import batallas.Message;
+import dao.db4o.HeroeDao;
+import models.componentes.personas.Heroe;
+import utilidades.Message;
 import models.componentes.Componentes;
 import models.componentes.personas.General;
-import dao.mysql.GeneralDao;
+import dao.db4o.GeneralDao;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -99,7 +103,12 @@ public class EjercitoVista extends JFrame {
      * Etiqueta que muestra el ataque, defensa y salud total del ejército
      */
     private JLabel totalLabel;
-    private JComboBox addGeneralC;
+
+    /**
+     * ComboBox que muestra los generales disponibles
+     */
+    private JComboBox<String> addGeneralC;
+    private JComboBox<String> addHeroeC;
 
     /**
      * Panel que muestra el ataque, defensa y salud total del ejército
@@ -135,6 +144,12 @@ public class EjercitoVista extends JFrame {
      * Objeto que representa el general seleccionado
      */
     private static General generalSeleccionado = new General();
+    private static Heroe heroeSeleccionado = new Heroe();
+
+    private static final List<Heroe> heroes = new ArrayList<>();
+    private static final List<General> generales = new ArrayList<>();
+
+    private static final List<Heroe> heroesSeleccionados = new ArrayList<>();
 
     /**
      * Constructor de la clase EjercitoVista. Inicializa los models.score.componentes de la vista y la muestra por pantalla.
@@ -153,18 +168,27 @@ public class EjercitoVista extends JFrame {
      */
     private void createUIComponents() {
         initComponents();
+        addGeneralC.setEditable(false);
+        addHeroeC.setEditable(false);
 
-        buttonGroup.add(nameArmyRad);
-        buttonGroup.add(addCabRad);
-        buttonGroup.add(addInfRad);
-        buttonGroup.add(addElefRad);
-        buttonGroup.add(addTirgRad);
-        buttonGroup.add(deleteUnit);
+        addGeneralC.setEnabled(true);
+        addHeroeC.setEnabled(true);
 
-        pesoBar.setMinimum(0);
-        pesoBar.setMaximum(Ejercito.getMaxPeso());
-        pesoBar.setStringPainted(true);
-        pesoBar.setString(ejercito.getSaldoPeso() + "/" + Ejercito.getMaxPeso());
+        // Método de agrupación de botones
+        setButtonGroup();
+
+        // Método de establecer los parámetros del pesoBar
+        setPesoBar();
+
+        if (heroes.isEmpty()) {
+            HeroeDao.selectAllHeroes();
+            heroes.addAll(HeroeDao.getHeroes());
+        }
+
+        if (generales.isEmpty()) {
+            GeneralDao.selectAllGeneral();
+            generales.addAll(GeneralDao.getGenerales());
+        }
 
         Vector<String> columnNames = new Vector<>(Arrays.asList("Nombre", "Tipo", "Ataque", "Defensa", "Salud"));
 
@@ -178,12 +202,20 @@ public class EjercitoVista extends JFrame {
         DefaultTableModel tableTotal = new DefaultTableModel(dataTotal, columnNamesTotal);
         totalArmy = new JTable(tableTotal);
 
-        GeneralDao.getGenerales().forEach(general -> addGeneralC.addItem(general.getNombre()));
+        for (Heroe heroe : heroes) {
+            addHeroeC.addItem(heroe.getNombre());
+        }
+        addHeroeC.setSelectedIndex(-1);
+
+        for (General general : generales) {
+            addGeneralC.addItem(general.getNombre());
+        }
         addGeneralC.setSelectedIndex(-1);
 
         aboutArmy.setEnabled(false);
         totalArmy.setEnabled(false);
 
+        // --------------------------------------------
         confirmButton.addActionListener(e -> {
             if (!deleteUnit.isSelected()) {
                 if (nameArmyRad.isSelected()) {
@@ -224,14 +256,11 @@ public class EjercitoVista extends JFrame {
 
                 if (addGeneralC.getSelectedIndex() != -1) {
 
-                    generalSeleccionado = GeneralDao.getGenerales().get(addGeneralC.getSelectedIndex());
-                    addGeneralC.setEditable(false);
+                    generalSeleccionado = generales.get(addGeneralC.getSelectedIndex());
                     ejercito.menu("d");
                     pesoBar.setValue(ejercito.getSaldoPeso());
                     addGeneralC.setSelectedIndex(-1);
 
-                    GeneralDao.getGenerales().remove(generalSeleccionado);
-
                     if (ejercito.getResultExecute() == 1) {
                         getAboutUnit();
                         ejercito.setResultExecute(0);
@@ -239,19 +268,13 @@ public class EjercitoVista extends JFrame {
                 }
 
 
-                if (addElefRad.isSelected()) {
+                if (addHeroeC.getSelectedIndex() != -1) {
+
+                    heroeSeleccionado = heroes.get(addHeroeC.getSelectedIndex());
+                    heroesSeleccionados.add(heroeSeleccionado);
                     ejercito.menu("e");
                     pesoBar.setValue(ejercito.getSaldoPeso());
-
-                    if (ejercito.getResultExecute() == 1) {
-                        getAboutUnit();
-                        ejercito.setResultExecute(0);
-                    }
-                }
-
-                if (addTirgRad.isSelected()) {
-                    ejercito.menu("f");
-                    pesoBar.setValue(ejercito.getSaldoPeso());
+                    addHeroeC.setSelectedIndex(-1);
 
                     if (ejercito.getResultExecute() == 1) {
                         getAboutUnit();
@@ -270,6 +293,7 @@ public class EjercitoVista extends JFrame {
                     pesoBar.setValue(ejercito.getSaldoPeso());
 
                     getAboutUnit();
+                    deleteUnit.setSelected(false);
                 }
             }
 
@@ -285,10 +309,27 @@ public class EjercitoVista extends JFrame {
             tableArmy.fireTableDataChanged();
             tableTotal.fireTableDataChanged();
         });
+        // --------------------------------------------
 
         endButton.addActionListener(e -> {
 
             ejercito.menu("i");
+
+            generales.remove(generalSeleccionado);
+
+            for (int i = 0; i < generales.size(); i++) {
+                if (generales.get(i).getNombre().equals(generalSeleccionado.getNombre())) {
+                    addGeneralC.remove(i);
+                }
+            }
+
+            heroes.removeAll(heroesSeleccionados);
+
+            for (int i = 0; i < heroes.size(); i++) {
+                if (heroes.get(i).getNombre().equals(heroeSeleccionado.getNombre())) {
+                    addHeroeC.remove(i);
+                }
+            }
 
             if (ejercito.getResultExecute() == 1 && !nameArmyRad.isEnabled()) {
                 if (batalla.getEjercito1().getUnidades().isEmpty()) {
@@ -322,14 +363,13 @@ public class EjercitoVista extends JFrame {
      * Método que inicializa los models.score.componentes de la vista.
      */
     private void initComponents() {
-        GeneralDao.selectGeneral();
-
         confirmButton = new JButton();
         pesoBar = new JProgressBar();
         nameArmyRad = new JRadioButton();
         addInfRad = new JRadioButton();
         addCabRad = new JRadioButton();
-        addGeneralC = new JComboBox();
+        addHeroeC = new JComboBox<>();
+        addGeneralC = new JComboBox<>();
         addElefRad = new JRadioButton();
         addTirgRad = new JRadioButton();
         deleteUnit = new JRadioButton();
@@ -369,5 +409,25 @@ public class EjercitoVista extends JFrame {
 
     public static General getGeneralSeleccionado() {
         return generalSeleccionado;
+    }
+
+    public static Heroe getHeroeSeleccionado() {
+        return heroeSeleccionado;
+    }
+
+    private void setButtonGroup() {
+        buttonGroup.add(nameArmyRad);
+        buttonGroup.add(addCabRad);
+        buttonGroup.add(addInfRad);
+        buttonGroup.add(addElefRad);
+        buttonGroup.add(addTirgRad);
+        buttonGroup.add(deleteUnit);
+    }
+
+    private void setPesoBar() {
+        pesoBar.setMinimum(0);
+        pesoBar.setMaximum(Ejercito.getMaxPeso());
+        pesoBar.setStringPainted(true);
+        pesoBar.setString(ejercito.getSaldoPeso() + "/" + Ejercito.getMaxPeso());
     }
 }

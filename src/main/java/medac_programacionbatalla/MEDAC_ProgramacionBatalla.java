@@ -5,8 +5,11 @@
 package medac_programacionbatalla;
 
 import dao.db4o.CondecoradoDao;
+import dao.db4o.TopScoreDao;
 import models.condecorados.Condecorado;
+import models.score.TopScore;
 import utilidades.ReaderCsv;
+import vistas.PrincipalVista;
 
 import java.util.List;
 
@@ -22,25 +25,24 @@ public class MEDAC_ProgramacionBatalla {
 //        ObjectContainer objectContainer = Db4oConnection.getConnection();
 //        Db4oConnection.closeConnection(objectContainer);
 //
-//        PrincipalVista principalVista = new PrincipalVista();
-//        principalVista.setSize(400, 300);
+        PrincipalVista principalVista = new PrincipalVista();
 
-        ReaderCsv.readCsv("src/main/resources/Heroes.csv");
-
-        int counter = 1;
-        for (List<String> list : ReaderCsv.getList()) {
-            Condecorado condecorado = new Condecorado();
-            condecorado.setLastName(list.get(0));
-            condecorado.setFirstName(list.get(1));
-            condecorado.setRank(list.get(2));
-            condecorado.setGradeMerit(list.get(3));
-            condecorado.setAward(list.get(4));
-
-            System.out.println(counter + " : " + condecorado);
-            counter++;
-
-            CondecoradoDao.insertCondecorado(condecorado);
-        }
+//        ReaderCsv.readCsv("src/main/resources/Heroes.csv");
+//
+//        int counter = 1;
+//        for (List<String> list : ReaderCsv.getList()) {
+//            Condecorado condecorado = new Condecorado();
+//            condecorado.setLastName(list.get(0));
+//            condecorado.setFirstName(list.get(1));
+//            condecorado.setRank(list.get(2));
+//            condecorado.setGradeMerit(list.get(3));
+//            condecorado.setAward(list.get(4));
+//
+//            System.out.println(counter + " : " + condecorado);
+//            counter++;
+//
+//            CondecoradoDao.insertCondecorado(condecorado);
+//        }
     }
 }
     
