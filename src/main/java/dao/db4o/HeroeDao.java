@@ -4,7 +4,7 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.ext.Db4oException;
 import com.db4o.query.Query;
-import models.componentes.personas.General;
+import models.componentes.personas.Heroe;
 import utilidades.Message;
 import utilidades.db4o.Db4oConnection;
 
@@ -12,19 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * GeneralDao class to make the CRUD operations in the database with the generals
- * using db4o connection and queries to select the generals in the database
- * and store the result in the generales list.
+ * HeroeDao class to make the CRUD operations in the database with the heroes
+ * using db4o connection and queries to select the heroes in the database
+ * and store the result in the heroes list.
  *
  * @version 1.0
  * @since 1.0
- * @see General
+ * @see Heroe
  * @see Message
  * @see Db4oConnection
  *
  * @author Daniel Romero
  */
-public class GeneralDao {
+public class HeroeDao {
 
     /**
      * Db4o connection to connect with the database
@@ -32,39 +32,39 @@ public class GeneralDao {
     private static ObjectContainer db;
 
     /**
-     * List of generals to store the result of the queries in the database
+     * List of heroes to store the result of the queries in the database
      */
-    private static final List<General> generales = new ArrayList<>();
+    private static final List<Heroe> heroes = new ArrayList<>();
 
     /**
      * Utility class to avoid the instantiation of the class and use the methods directly
      * with the class name and dot operator to access the methods.
      */
-    private GeneralDao() {
+    private HeroeDao() {
         throw new IllegalStateException("Utility class");
     }
 
     /**
-     * Insert a general in the database using db4o connection and commit the
+     * Insert a hero in the database using db4o connection and commit the
      * transaction after the insertion is done successfully
      *
-     * @param general general to insert in the database
+     * @param heroe hero to insert in the database
      */
-    public static void insertGeneral(General general) {
+    public static void insertHeroe(Heroe heroe) {
         try {
             db = Db4oConnection.getConnection();
 
-            if (db != null)  {
-                db.store(general);
+            if (db != null) {
+                db.store(heroe);
                 db.commit();
             } else {
                 System.err.println(Message.ERROR_DB_CONNECTION);
             }
 
-            System.out.println("Insertion of general successful");
+            System.out.println("Insert hero successful");
 
         } catch (Db4oException e) {
-            System.err.println("Error in the insertion of the general");
+            System.err.println("Error in the insertion of the hero");
             System.err.println(e.getMessage());
         } finally {
             if (db != null) {
@@ -77,24 +77,24 @@ public class GeneralDao {
     }
 
     /**
-     * Insert a list of generals in the database using db4o connection and commit
-     * the transaction after the insertion of all the generals in the list is
+     * Insert a list of heroes in the database using db4o connection and commit
+     * the transaction after the insertion of all the heroes in the list is
      * done successfully
      *
-     * @param generales list of generals to insert in the database
+     * @param heroes list of heroes to insert in the database
      */
-    public static void insertGeneral(List<General> generales) {
+    public static void insertHeroe(List<Heroe> heroes) {
         try {
             db = Db4oConnection.getConnection();
 
-            if (generales.isEmpty()) {
-                System.out.println("The list of generals is empty");
+            if (heroes.isEmpty()) {
+                System.out.println("The list of heroes is empty");
                 return;
             }
 
-            if (db != null)  {
-                for (General general : generales) {
-                    db.store(general);
+            if (db != null) {
+                for (Heroe heroe : heroes) {
+                    db.store(heroe);
                 }
 
                 db.commit();
@@ -102,9 +102,10 @@ public class GeneralDao {
                 System.err.println(Message.ERROR_DB_CONNECTION);
             }
 
-            System.out.println("Insertion of generals successful");
+            System.out.println("Insert heroes successful");
+
         } catch (Db4oException e) {
-            System.err.println("Error in the insertion of the generals");
+            System.err.println("Error in the insertion of the hero");
             System.err.println(e.getMessage());
         } finally {
             if (db != null) {
@@ -117,25 +118,25 @@ public class GeneralDao {
     }
 
     /**
-     * Delete a general in the database using db4o connection and commit the
+     * Delete a hero in the database using db4o connection and commit the
      * transaction after the deletion is done successfully
      *
-     * @param general general to delete in the database
+     * @param heroe hero to delete in the database
      */
-    public static void deleteGeneral(General general) {
+    public static void deleteHeroe(Heroe heroe) {
         try {
             db = Db4oConnection.getConnection();
 
-            if (db != null)  {
-                db.delete(general);
+            if (db != null) {
+                db.delete(heroe);
                 db.commit();
             } else {
                 System.err.println(Message.ERROR_DB_CONNECTION);
             }
 
-            System.out.println("Deletion of general successful");
+            System.out.println("Delete hero successful");
         } catch (Db4oException e) {
-            System.err.println("Error in the deletion of the general");
+            System.err.println("Error in the deletion of the hero");
             System.err.println(e.getMessage());
         } finally {
             if (db != null) {
@@ -148,19 +149,24 @@ public class GeneralDao {
     }
 
     /**
-     * Delete a list of generals in the database using db4o connection and commit
-     * the transaction after the deletion of all the generals in the list is
+     * Delete a list of heroes in the database using db4o connection and commit
+     * the transaction after the deletion of all the heroes in the list is
      * done successfully
      *
-     * @param generales list of generals to delete in the database
+     * @param heroes list of heroes to delete in the database
      */
-    public static void deleteGeneral(List<General> generales) {
+    public static void deleteHeroe(List<Heroe> heroes) {
         try {
             db = Db4oConnection.getConnection();
 
-            if (db != null)  {
-                for (General general : generales) {
-                    db.delete(general);
+            if (heroes.isEmpty()) {
+                System.out.println("The list of heroes is empty");
+                return;
+            }
+
+            if (db != null) {
+                for (Heroe heroe : heroes) {
+                    db.delete(heroe);
                 }
 
                 db.commit();
@@ -168,9 +174,9 @@ public class GeneralDao {
                 System.err.println(Message.ERROR_DB_CONNECTION);
             }
 
-            System.out.println("Deletion of generals successful");
+            System.out.println("Delete heroes successful");
         } catch (Db4oException e) {
-            System.err.println("Error in the deletion of the generals");
+            System.err.println("Error in the deletion of the hero");
             System.err.println(e.getMessage());
         } finally {
             if (db != null) {
@@ -183,33 +189,33 @@ public class GeneralDao {
     }
 
     /**
-     * Select a general in the database using db4o connection and commit the transaction
-     * after the selection is done successfully and store the result in the generales list.
+     * Select a hero in the database using db4o connection and commit the transaction
+     * after the selection is done successfully and store the result in the heroes list.
      *
-     * @param general general to select in the database
+     * @param heroe hero to select in the database
      */
-    public static void selectGeneral(General general) {
+    public static void selectHeroe(Heroe heroe) {
         try {
             db = Db4oConnection.getConnection();
 
-            ObjectSet<General> result;
+            ObjectSet<Heroe> result;
             if (db != null) {
-                result = db.queryByExample(general);
+                result = db.queryByExample(heroe);
             } else {
                 System.err.println(Message.ERROR_DB_CONNECTION);
                 return;
             }
 
-            generales.clear();
+            heroes.clear();
 
             if (result.hasNext()) {
-                General generalResult = result.next();
-                generales.add(generalResult);
+                Heroe heroeResult = result.next();
+                heroes.add(heroeResult);
             } else {
-                System.out.println("Not found general in the database");
+                System.out.println("Not found the hero");
             }
         } catch (Db4oException e) {
-            System.err.println("Error in the search of the general");
+            System.err.println("Error in the search for the hero");
             System.err.println(e.getMessage());
         } finally {
             if (db != null) {
@@ -222,33 +228,33 @@ public class GeneralDao {
     }
 
     /**
-     * Select all generals in the database using db4o connection and commit the transaction
-     * after the selection is done successfully and store the result in the generales list.
+     * Select all heroes in the database using db4o connection and commit the transaction
+     * after the selection is done successfully and store the result in the heroes list.
      */
-    public static void selectAllGeneral() {
+    public static void selectAllHeroes() {
         try {
             db = Db4oConnection.getConnection();
 
-            ObjectSet<General> result;
+            ObjectSet<Heroe> result;
             if (db != null) {
-                result = db.queryByExample(General.class);
+                result = db.queryByExample(Heroe.class);
             } else {
                 System.err.println(Message.ERROR_DB_CONNECTION);
                 return;
             }
 
-            generales.clear();
+            heroes.clear();
 
             if (result.isEmpty()) {
-                System.out.println("Not found generals in the database");
+                System.out.println("Not found heroes in the database");
             } else {
                 while (result.hasNext()) {
-                    General general = result.next();
-                    generales.add(general);
+                    Heroe heroe = result.next();
+                    heroes.add(heroe);
                 }
             }
         } catch (Db4oException e) {
-            System.err.println("Error in the search of the generals");
+            System.err.println("Error in the search for the heroes");
             System.err.println(e.getMessage());
         } finally {
             if (db != null) {
@@ -261,17 +267,17 @@ public class GeneralDao {
     }
 
     /**
-     * Select a general in the database using db4o connection and commit the transaction
-     * after the selection is done successfully and store the result in the generales list.
+     * Select a hero in the database using db4o connection and commit the transaction
+     * after the selection is done successfully and store the result in the heroes list.
      *
      * @param connection db4o connection
-     * @param query query to select a general in the database
+     * @param query query to select a hero in the database
      */
-    public static void selectByQueryGeneral(ObjectContainer connection, Query query) {
+    public static void selectByQueryHeroe(ObjectContainer connection, Query query) {
         try {
             db = connection;
 
-            ObjectSet<General> result;
+            ObjectSet<Heroe> result;
             if (db != null && query != null) {
                 result = query.execute();
             } else {
@@ -279,18 +285,18 @@ public class GeneralDao {
                 return;
             }
 
-            generales.clear();
+            heroes.clear();
 
             if (result.isEmpty()) {
-                System.out.println("No hay generales en la base de datos");
+                System.out.println("Not found heroes in the database");
             } else {
                 while (result.hasNext()) {
-                    General general = result.next();
-                    generales.add(general);
+                    Heroe heroe = result.next();
+                    heroes.add(heroe);
                 }
             }
         } catch (Db4oException e) {
-            System.err.println("Error en la búsqueda de generales");
+            System.err.println("Error in the search for the hero");
             System.err.println(e.getMessage());
         } finally {
             if (db != null) {
@@ -303,11 +309,11 @@ public class GeneralDao {
     }
 
     /**
-     * Get the generales list
+     * Get the heroes list
      *
-     * @return generales list
+     * @return heroes list
      */
-    public static List<General> getGenerales() {
-        return generales;
+    public static List<Heroe> getHeroes() {
+        return heroes;
     }
 }
