@@ -4,7 +4,7 @@ import batallas.Ronda;
 import controladores.ExploradorFicheros;
 import controladores.GestorFichero;
 import controladores.SerializarBatalla;
-import dao.mysql.TopScoreDao;
+import dao.db4o.TopScoreDao;
 import models.score.TopScore;
 
 import javax.swing.*;
